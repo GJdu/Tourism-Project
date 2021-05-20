@@ -1,0 +1,3 @@
+pandas~=1.2.4
+opencv-python~=4.5.2.52
+deepface~=0.0.51

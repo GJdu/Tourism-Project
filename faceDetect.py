@@ -4,7 +4,7 @@ from pathlib import Path
 
 def faceDetect(file_name):
 
-    casc_path = "/Users/brian/PycharmProjects/BISITE-TourismProject/haarcascade_frontalface_default.xml"
+    casc_path = "haarcascade_frontalface_default.xml"
     faceCascade = cv2.CascadeClassifier(casc_path)
 
     img = cv2.imread(file_name)

@@ -1,0 +1,15 @@
+# List of location ids in Salamanca Spain
+
+[salamanca]
+# Salamanca, Spain
+212913483
+# Rio Tormes
+633464287047604
+# Univeristy of Salamanca
+16626
+# Barrio del Oeste
+495872634102900
+# La Alamedilla
+1212777442093399
+# Plaza Mayor
+430716997

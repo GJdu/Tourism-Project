@@ -2,3 +2,6 @@ pandas~=1.2.4
 opencv-python~=4.5.2.52
 deepface~=0.0.51
 instalooter~=2.4.4
+imageai~=2.1.6
+numpy~=1.19.3
+tensorflow~=2.5.0

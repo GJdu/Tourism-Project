@@ -49,6 +49,8 @@ def trainModel():
         [
             layers.experimental.preprocessing.RandomFlip("horizontal"),
             layers.experimental.preprocessing.RandomRotation(0.1),
+            layers.experimental.preprocessing.RandomZoom(0.3, 0.3),
+            layers.experimental.preprocessing.RandomTranslation(0.2, 0.2),
         ]
     )
 

@@ -130,6 +130,7 @@ dmypy.json
 .pyre/
 
 # images
+*.jpg
 *.jpeg
 *.png
 

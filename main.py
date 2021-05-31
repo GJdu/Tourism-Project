@@ -1,10 +1,10 @@
-from faceDetect import faceDetect
-from deepFaceAnalysis import deepFaceAnalysis
 import glob
 import cv2
 import os
 import pandas as pd
-import numpy as np
+from faceDetect import faceDetect
+from deepFaceAnalysis import deepFaceAnalysis
+from landmarkDetect import landmarkDetect
 
 IMAGES_PATH = "FOTOS-Sample"
 
@@ -12,6 +12,7 @@ IMAGES_PATH = "FOTOS-Sample"
 image_id = []
 face_count = []
 deepface_info = []
+scene_type = []
 
 for image_path in glob.glob(IMAGES_PATH + '/*.jpg'):
 
@@ -30,7 +31,9 @@ for image_path in glob.glob(IMAGES_PATH + '/*.jpg'):
     else:
         deepface_info.append("None")
 
-output_df = pd.DataFrame(list(zip(image_id, face_count, deepface_info)), columns=["image id", "face count", "deepface"])
+    scene_type.append(landmarkDetect(image))
+
+output_df = pd.DataFrame(list(zip(image_id, face_count, deepface_info, scene_type)), columns=["image id", "face count", "deepface", "scene type"])
 output_df.to_csv(r'Output.csv', index = True, header=True)
 
 

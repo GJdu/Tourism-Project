@@ -3,6 +3,7 @@ import cv2
 import os
 import pandas as pd
 from faceDetect import faceDetect
+from faceDetect import personRatio
 from deepFaceAnalysis import deepFaceAnalysis
 from landmarkDetect import landmarkDetect
 
@@ -13,6 +14,7 @@ image_id = []
 face_count = []
 deepface_info = []
 scene_type = []
+selfie = []
 
 for image_path in glob.glob(IMAGES_PATH + '/*.jpg'):
 

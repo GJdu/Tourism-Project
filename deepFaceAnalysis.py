@@ -2,7 +2,6 @@ import cv2
 import glob
 from deepface import DeepFace
 import pandas as pd
-import numpy as np
 
 def deepFaceAnalysis(detected_faces_path):
 

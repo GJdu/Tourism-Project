@@ -137,3 +137,6 @@ dmypy.json
 .idea/
 *.h5
 *.zip
+
+# Saved models
+tourism_model/

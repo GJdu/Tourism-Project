@@ -3,7 +3,6 @@ import cv2
 import os
 import pandas as pd
 from faceDetect import faceDetect
-from faceDetect import personRatio
 from deepFaceAnalysis import deepFaceAnalysis
 from landmarkDetect import landmarkDetect
 

@@ -8,7 +8,7 @@ image_size = (150, 150)
 
 # Load model
 def getModel():
-    model = keras.models.load_model("tourism_model")
+    model = keras.models.load_model("detectSelfie_model")
     return model
 
 # Retrain model
@@ -18,7 +18,7 @@ def trainModel():
     batch_size = 32
 
     train_ds = tf.keras.preprocessing.image_dataset_from_directory(
-        "/Users/brian/Desktop/BISITE/ImageDateSet",
+        "/Users/brian/Documents/BISITE/Dataset/Selfie-Image-Detection-Dataset/Training_data",
         labels="inferred",
         label_mode="int",
         validation_split=0.2,
@@ -28,7 +28,7 @@ def trainModel():
         batch_size=batch_size,
     )
     val_ds = tf.keras.preprocessing.image_dataset_from_directory(
-        "/Users/brian/Desktop/BISITE/ImageDateSet",
+        "/Users/brian/Documents/BISITE/Dataset/Selfie-Image-Detection-Dataset/Training_data",
         labels="inferred",
         label_mode="int",
         validation_split=0.2,
@@ -80,7 +80,7 @@ def trainModel():
     model.compile(optimizer=keras.optimizers.Adam(),
                   loss=keras.losses.BinaryCrossentropy(from_logits=True),
                   metrics=[keras.metrics.BinaryAccuracy()])
-    model.fit(train_ds, epochs=20, validation_data=val_ds)
+    model.fit(train_ds, epochs=60, validation_data=val_ds)
 
     # Fine-tuning model
     base_model.trainable = True
@@ -96,11 +96,11 @@ def trainModel():
     model.fit(train_ds, epochs=epochs, validation_data=val_ds)
 
     # Creates a SavedModel
-    model.save("tourism_model")
+    model.save("detectSelfie_model")
 
     return model
 
-if os.path.exists("tourism_model"):
+if os.path.exists("detectSelfie_model"):
     model = getModel()
 else:
     model = trainModel()
@@ -117,6 +117,6 @@ predictions = model.predict(img_array)
 score = predictions[0]
 
 if (score > 0):
-    print("Image is not an advertisement")
+    print("Image is not a Selfie")
 else:
-    print("Image is an advertisement")
+    print("Image is a Selfie")

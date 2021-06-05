@@ -80,7 +80,7 @@ def trainModel():
     model.compile(optimizer=keras.optimizers.Adam(),
                   loss=keras.losses.BinaryCrossentropy(from_logits=True),
                   metrics=[keras.metrics.BinaryAccuracy()])
-    model.fit(train_ds, epochs=60, validation_data=val_ds)
+    model.fit(train_ds, epochs=20, validation_data=val_ds)
 
     # Fine-tuning model
     base_model.trainable = True
@@ -100,23 +100,24 @@ def trainModel():
 
     return model
 
-if os.path.exists("detectSelfie_model"):
-    model = getModel()
-else:
-    model = trainModel()
+def detectSelfie(image_path):
+    if os.path.exists("detectSelfie_model"):
+        model = getModel()
+    else:
+        model = trainModel()
 
-# Makes prediction
-img = keras.preprocessing.image.load_img(
-    "Spain-tourists.jpeg", target_size=image_size
-)
+    # Makes prediction
+    img = keras.preprocessing.image.load_img(image_path, target_size=image_size)
 
-img_array = keras.preprocessing.image.img_to_array(img)
-img_array = tf.expand_dims(img_array, 0)
+    img_array = keras.preprocessing.image.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0)
 
-predictions = model.predict(img_array)
-score = predictions[0]
+    predictions = model.predict(img_array)
+    score = predictions[0]
 
-if (score > 0):
-    print("Image is not a Selfie")
-else:
-    print("Image is a Selfie")
+    if (score > 0):
+        print("Image is a Selfie")
+        return 1
+    else:
+        print("Image is not a Selfie")
+        return 0

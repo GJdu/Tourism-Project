@@ -69,10 +69,10 @@ def personRatio (image_path):
 
     return ratio_list
 
-test_image = "/Users/brian/Documents/GitHub/Action-Net/images/3.jpg"
-# print(str(personDetect(test_image)))
-
-predictions, probabilities  = detectAction(test_image)
-
-for prediction, probability in zip(predictions, probabilities):
-    print(prediction, " : ", probability)
+# test_image = "/Users/brian/Documents/GitHub/Action-Net/images/3.jpg"
+# # print(str(personDetect(test_image)))
+#
+# predictions, probabilities  = detectAction(test_image)
+#
+# for prediction, probability in zip(predictions, probabilities):
+#     print(prediction, " : ", probability)

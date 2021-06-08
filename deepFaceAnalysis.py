@@ -2,6 +2,7 @@ import cv2
 import glob
 from deepface import DeepFace
 import pandas as pd
+import shutil
 
 def deepFaceAnalysis(detected_faces_path):
 
@@ -20,4 +21,7 @@ def deepFaceAnalysis(detected_faces_path):
         emotion_list.append(face_feature["dominant_emotion"])
 
     face_df = pd.DataFrame(list(zip(age_list, gender_list, race_list, emotion_list)), columns=['age', 'gender', 'race', 'emotion'])
+
+    shutil.rmtree(detected_faces_path)
+
     return face_df

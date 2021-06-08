@@ -38,7 +38,8 @@ def personDetect (image_path):
     detections = humanDetector.detectObjectsFromImage(custom_objects=custom_objects,
                                                        input_image=image_path,
                                                        output_image_path=face_path_head + '.jpeg',
-                                                       minimum_percentage_probability=70)
+                                                       minimum_percentage_probability=80)
+    os.remove(face_path_head + '.jpeg')
     # Count number of people present
     return len(detections)
 

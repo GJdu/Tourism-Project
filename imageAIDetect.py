@@ -17,10 +17,10 @@ humanDetector.setModelTypeAsRetinaNet()
 humanDetector.setModelPath( os.path.join(execution_path , "resnet50_coco_best_v2.1.0.h5"))
 humanDetector.loadModel()
 
-actionDetector = CustomImagePrediction()
-actionDetector.setModelPath( os.path.join(execution_path , "action_net_ex-060_acc-0.745313.h5"))
-actionDetector.setJsonPath("/Users/brian/Documents/GitHub/Action-Net/model_class.json")
-actionDetector.loadFullModel(num_objects=16)
+# actionDetector = CustomImagePrediction()
+# actionDetector.setModelPath( os.path.join(execution_path , "action_net_ex-060_acc-0.745313.h5"))
+# actionDetector.setJsonPath("/Users/brian/Documents/GitHub/Action-Net/model_class.json")
+# actionDetector.loadFullModel(num_objects=16)
 
 def objectDetect (image_path):
 
@@ -43,37 +43,7 @@ def personDetect (image_path):
     # Count number of people present
     return len(detections)
 
-def detectAction (image_path):
-    predictions, probabilities = actionDetector.classifyImage(image_input=image_path, result_count=3)
-
-    return predictions, probabilities
-
-def personRatio (image_path):
-
-    original_image = Image.open(image_path)
-    original_image_width, original_image_height = original_image.size
-    original_image_size = original_image_width * original_image_height
-
-    img_list = []
-    ratio_list = []
-
-    detected_image_path = "Detected_" + image_path + "-objects" + "/*.jpg"
-    for image in glob.glob(detected_image_path):
-        if 'person' in image:
-            img = Image.open(image)
-            img_list.append(img)
-
-    for image in img_list:
-        width, height = image.size
-        ratio = width * height / original_image_size
-        ratio_list.append(ratio)
-
-    return ratio_list
-
-# test_image = "/Users/brian/Documents/GitHub/Action-Net/images/3.jpg"
-# # print(str(personDetect(test_image)))
+# def detectAction (image_path):
+#     predictions, probabilities = actionDetector.classifyImage(image_input=image_path, result_count=3)
 #
-# predictions, probabilities  = detectAction(test_image)
-#
-# for prediction, probability in zip(predictions, probabilities):
-#     print(prediction, " : ", probability)
+#     return predictions, probabilities

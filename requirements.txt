@@ -1,7 +1,7 @@
 opencv-python~=4.5.2.52
 pandas~=1.2.4
 numpy~=1.19.3
-Pillow~=7.0.0
+Pillow~=8.2.0
 imageai~=2.1.6
 deepface~=0.0.53
 tensorflow~=2.4.0

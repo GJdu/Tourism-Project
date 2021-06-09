@@ -13,7 +13,10 @@ IMAGES_PATH = "FOTOS-Sample"
 image_id = []
 person_count = []
 face_count = []
-deepface_info = []
+age_list = []
+gender_list = []
+race_list = []
+emotion_list = []
 scene_type = []
 selfie = []
 
@@ -30,9 +33,12 @@ for image_path in glob.glob(IMAGES_PATH + '/*.jpg'):
     person_count.append(numberPersons)
 
     # Perform deepface analysis
-    numberFaces, face_df = deepFaceAnalysis(image_path)
+    numberFaces, age, gender, race, emotion = deepFaceAnalysis(image_path)
     face_count.append(numberFaces)
-    deepface_info.append(face_df)
+    age_list.append(age)
+    gender_list.append(gender)
+    race_list.append(race)
+    emotion_list.append(emotion)
 
     # Analysis location type
     scene_type.append(landmarkDetect(image))
@@ -43,5 +49,6 @@ for image_path in glob.glob(IMAGES_PATH + '/*.jpg'):
         selfie.append("False")
 
 # Save extracted information to a csv file
-output_df = pd.DataFrame(list(zip(image_id, person_count,face_count, deepface_info, scene_type, selfie)), columns=["image id", "person count", "face count", "deepface", "scene type", "selfie"])
+output_df = pd.DataFrame(list(zip(image_id, person_count,face_count, age_list, gender_list, race_list, emotion_list, scene_type, selfie)), columns=["image id", "person count", "face count", "age", "gender", "race", "emotion", "scene type", "selfie"])
 output_df.to_csv(r'Output.csv', index = False, header=True)
+output_df.to_excel("Output.xlsx", index = False)

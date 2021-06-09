@@ -1,6 +1,5 @@
 from deepface import DeepFace
 from retinaface import RetinaFace
-import pandas as pd
 
 # Need to install the latest mtcnn at: https://github.com/ipazc/mtcnn
 
@@ -18,24 +17,23 @@ models = {"age" : age_model,
           }
 
 def deepFaceAnalysis(image_path):
-    age_list = []
-    gender_list = []
-    race_list = []
-    emotion_list = []
+    age_list = {}
+    gender_list = {}
+    race_list = {}
+    emotion_list = {}
 
     # Pass all images through DeepFace
     faces = RetinaFace.extract_faces(image_path, model=retina_model)
 
     if len(faces) > 0:
-        for face in faces:
-            # if face.shape[0] > 48 and face.shape[1] > 48:
+        for i, face in enumerate(faces, start=1):
+            dict = "face_" + str(i)
             face_feature = DeepFace.analyze(face, actions = ['age', 'gender', 'race', 'emotion'], models=models, enforce_detection=False)
-            age_list.append(face_feature["age"])
-            gender_list.append(face_feature["gender"])
-            race_list.append(face_feature["dominant_race"])
-            emotion_list.append(face_feature["dominant_emotion"])
+            age_list[dict] = (face_feature["age"])
+            gender_list[dict] = (face_feature["gender"])
+            race_list[dict] = (face_feature["dominant_race"])
+            emotion_list[dict] = (face_feature["dominant_emotion"])
 
-        face_df = pd.DataFrame(list(zip(age_list, gender_list, race_list, emotion_list)), columns=['age', 'gender', 'race', 'emotion'])
-        return len(faces), face_df
+        return len(faces), age_list, gender_list, race_list, emotion_list
     else:
-        return 0, "None"
+        return 0, "None", "None", "None", "None"

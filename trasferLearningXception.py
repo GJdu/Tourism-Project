@@ -2,37 +2,44 @@ import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
+from kaggle.api.kaggle_api_extended import KaggleApi
+from zipfile import ZipFile
+import pickle5 as pickle
+import shutil
 import os
 
 image_size = (150, 150)
 
+MODEL = "detectSelfie_model"
+
 # Load model
 def getModel():
-    model = keras.models.load_model("detectSelfie_model")
+    model = keras.models.load_model(MODEL)
     return model
 
 # Retrain model
 def trainModel():
     os.environ['TF_XLA_FLAGS'] = '--tf_xla_enable_xla_devices'
 
+    api = KaggleApi()
+    api.authenticate()
+
+    api.dataset_download_files('jigrubhatt/selfieimagedetectiondataset', 'data/', unzip=True)
+
     batch_size = 32
 
     train_ds = tf.keras.preprocessing.image_dataset_from_directory(
-        "/Users/brian/Documents/BISITE/Dataset/Selfie-Image-Detection-Dataset/Training_data",
+        "data/Selfie-Image-Detection-Dataset/Training_data",
         labels="inferred",
         label_mode="int",
-        validation_split=0.2,
-        subset="training",
         seed=1337,
         image_size=image_size,
         batch_size=batch_size,
     )
     val_ds = tf.keras.preprocessing.image_dataset_from_directory(
-        "/Users/brian/Documents/BISITE/Dataset/Selfie-Image-Detection-Dataset/Training_data",
+        "data/Selfie-Image-Detection-Dataset/Validation_data",
         labels="inferred",
         label_mode="int",
-        validation_split=0.2,
-        subset="validation",
         seed=1337,
         image_size=image_size,
         batch_size=batch_size,
@@ -80,7 +87,11 @@ def trainModel():
     model.compile(optimizer=keras.optimizers.Adam(),
                   loss=keras.losses.BinaryCrossentropy(from_logits=True),
                   metrics=[keras.metrics.BinaryAccuracy()])
-    model.fit(train_ds, epochs=20, validation_data=val_ds)
+    trian_history = model.fit(train_ds, epochs=20, validation_data=val_ds)
+
+    # Save training history as a dictionary
+    with open('/trainHistoryDict', 'wb') as file_pi:
+        pickle.dump(trian_history.history, file_pi)
 
     # Fine-tuning model
     base_model.trainable = True
@@ -93,15 +104,22 @@ def trainModel():
     )
 
     epochs = 10
-    model.fit(train_ds, epochs=epochs, validation_data=val_ds)
+    fine_tuning_history = model.fit(train_ds, epochs=epochs, validation_data=val_ds)
+
+    # Save fine tuning history as dictionary
+    with open('/fineTuningHistoryDict', 'wb') as file_pi:
+        pickle.dump(fine_tuning_history.history, file_pi)
 
     # Creates a SavedModel
-    model.save("detectSelfie_model")
+    model.save(MODEL)
+
+    # Remove used data
+    shutil.rmtree("data/Selfie-Image-Detection-Dataset")
 
     return model
 
 def detectSelfie(image_path):
-    if os.path.exists("detectSelfie_model"):
+    if os.path.exists(MODEL):
         model = getModel()
     else:
         model = trainModel()
@@ -117,7 +135,9 @@ def detectSelfie(image_path):
 
     if (score > 0):
         print("Image is a Selfie")
-        return 1
+        return True
     else:
         print("Image is not a Selfie")
-        return 0
+        return False
+
+detectSelfie("Spain-tourists-2.jpeg")

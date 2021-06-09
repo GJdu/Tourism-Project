@@ -1,0 +1,21 @@
+image id,person count,face count,age,gender,race,emotion,scene type,selfie
+178776384_830782124188839_1983960611064569190_n,1,1,{'face_1': 28},{'face_1': 'Man'},{'face_1': 'white'},{'face_1': 'happy'},forest/broadleaf,False
+180760937_221298752666578_9215985169661169087_n,0,0,None,None,None,None,park,False
+26157510_327994431017932_8007077572535910400_n,1,2,"{'face_1': 25, 'face_2': 32}","{'face_1': 'Man', 'face_2': 'Woman'}","{'face_1': 'asian', 'face_2': 'white'}","{'face_1': 'fear', 'face_2': 'neutral'}",beauty_salon,True
+19227671_123517314904121_7137850619313782784_n,1,1,{'face_1': 32},{'face_1': 'Man'},{'face_1': 'middle eastern'},{'face_1': 'fear'},promenade,False
+179158308_283268670140275_6809950219086834281_n,2,2,"{'face_1': 33, 'face_2': 30}","{'face_1': 'Man', 'face_2': 'Woman'}","{'face_1': 'white', 'face_2': 'white'}","{'face_1': 'happy', 'face_2': 'happy'}",temple/asia,False
+177968264_363085765123863_5591751147031329443_n,1,1,{'face_1': 22},{'face_1': 'Man'},{'face_1': 'white'},{'face_1': 'angry'},orchard,False
+17818153_1789889731327095_28372270489534464_n,1,1,{'face_1': 31},{'face_1': 'Man'},{'face_1': 'white'},{'face_1': 'neutral'},synagogue/outdoor,True
+179398063_475471440395728_1212703802511175867_n,1,0,None,None,None,None,watering_hole,False
+30077058_2094204874189888_3750158653076799488_n,0,0,None,None,None,None,church/outdoor,False
+26156117_161867474580754_8606610386642272256_n,1,5,"{'face_1': 30, 'face_2': 23, 'face_3': 24, 'face_4': 23, 'face_5': 26}","{'face_1': 'Woman', 'face_2': 'Man', 'face_3': 'Man', 'face_4': 'Man', 'face_5': 'Man'}","{'face_1': 'white', 'face_2': 'white', 'face_3': 'asian', 'face_4': 'white', 'face_5': 'white'}","{'face_1': 'happy', 'face_2': 'happy', 'face_3': 'fear', 'face_4': 'happy', 'face_5': 'sad'}",discotheque,True
+30592769_1002040389952428_1966239348118519808_n,2,2,"{'face_1': 34, 'face_2': 26}","{'face_1': 'Man', 'face_2': 'Man'}","{'face_1': 'white', 'face_2': 'asian'}","{'face_1': 'happy', 'face_2': 'angry'}",beauty_salon,False
+179945954_298786348383573_8009489283757952249_n,3,4,"{'face_1': 31, 'face_2': 30, 'face_3': 34, 'face_4': 32}","{'face_1': 'Woman', 'face_2': 'Woman', 'face_3': 'Woman', 'face_4': 'Man'}","{'face_1': 'white', 'face_2': 'white', 'face_3': 'white', 'face_4': 'white'}","{'face_1': 'happy', 'face_2': 'happy', 'face_3': 'happy', 'face_4': 'happy'}",army_base,False
+179446828_839587226768527_5559626408770582258_n,0,1,{'face_1': 25},{'face_1': 'Man'},{'face_1': 'white'},{'face_1': 'sad'},mausoleum,False
+14727584_1215638165210492_4211256128543129600_n,1,1,{'face_1': 32},{'face_1': 'Man'},{'face_1': 'white'},{'face_1': 'sad'},archaelogical_excavation,True
+178053359_308870337261591_2727215438375192175_n,1,0,None,None,None,None,temple/asia,False
+22158758_1947342175505709_3611608166363561984_n,1,2,"{'face_1': 34, 'face_2': 28}","{'face_1': 'Man', 'face_2': 'Man'}","{'face_1': 'white', 'face_2': 'middle eastern'}","{'face_1': 'fear', 'face_2': 'neutral'}",office,True
+31822919_494682544280680_7724651406598078464_n,1,1,{'face_1': 36},{'face_1': 'Man'},{'face_1': 'middle eastern'},{'face_1': 'neutral'},courtyard,False
+19228564_100658907218338_6749797502326669312_n,2,2,"{'face_1': 36, 'face_2': 32}","{'face_1': 'Man', 'face_2': 'Man'}","{'face_1': 'white', 'face_2': 'latino hispanic'}","{'face_1': 'happy', 'face_2': 'happy'}",water_park,False
+180430100_365117691585384_4844866814362487843_n,1,1,{'face_1': 29},{'face_1': 'Man'},{'face_1': 'white'},{'face_1': 'neutral'},forest/broadleaf,False
+180166436_1345601032491136_7463974967916427671_n,1,1,{'face_1': 32},{'face_1': 'Woman'},{'face_1': 'white'},{'face_1': 'happy'},patio,False

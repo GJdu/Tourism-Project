@@ -2,7 +2,6 @@ import glob
 import cv2
 import os
 import pandas as pd
-from faceDetect import faceDetect
 from deepFaceAnalysis import deepFaceAnalysis
 from landmarkDetect import landmarkDetect
 from imageAIDetect import personDetect

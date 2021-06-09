@@ -33,4 +33,4 @@ def detectByPathImage(path, output_path):
     cv2.destroyAllWindows()
 
 # detectByPathImage("FOTOS-Sample/179945954_298786348383573_8009489283757952249_n.jpg", "Test/test.jpg")
-detectByPathImage("FOTOS-Sample/180166436_1345601032491136_7463974967916427671_n.jpg", "Test/test.jpg")
+detectByPathImage("../FOTOS-Sample/180166436_1345601032491136_7463974967916427671_n.jpg", "Test/test.jpg")

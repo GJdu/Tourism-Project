@@ -3,7 +3,6 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 from kaggle.api.kaggle_api_extended import KaggleApi
-from zipfile import ZipFile
 import pickle5 as pickle
 import shutil
 import os

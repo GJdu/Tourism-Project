@@ -2,6 +2,7 @@ from google.cloud import vision
 import io
 import os
 
+# https://cloud.google.com/docs/authentication/getting-started#command-line
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="tourism-project-image-268ecc2e54b5.json"
 
 # Detects landmarks in the file.
@@ -30,4 +31,6 @@ def detect_landmarks(path):
             'https://cloud.google.com/apis/design/errors'.format(
                 response.error.message))
 
-detect_landmarks('Spain-tourists.jpeg')
+    return landmarks[0].description
+
+detect_landmarks('../FOTOS-Sample/180760937_221298752666578_9215985169661169087_n.jpg')

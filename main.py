@@ -5,7 +5,7 @@ import pandas as pd
 from deepFaceAnalysis import deepFaceAnalysis
 from landmarkDetect import landmarkDetect
 from imageAIDetect import personDetect
-from trasferLearningXception import detectSelfie
+from detectSelfie import detectSelfie
 
 IMAGES_PATH = "FOTOS-Sample"
 

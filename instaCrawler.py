@@ -24,7 +24,9 @@ def instaScapper(hashtag, count, location_file):
 
 # https://github.com/realsirjoe/instagram-scraper
 import os
+import json
 import urllib.request
+import pandas as pd
 from PIL import Image
 from igramscraper.instagram import Instagram
 def igramscraperSetup(instagram):
@@ -52,17 +54,50 @@ def getLocationByID(instagram, location_id):
 
 def getImageFromLocation(instagram, location_id, count):
 
-    location = getLocationByID(instagram, location_id)
     media = instagram.get_medias_by_location_id(location_id, count)
+
+    data = []
+
+    columns = [
+        "Image Id",
+        "Likes Count",
+        "Image High Resolution Url",
+        "Instagram Link",
+        "Location Id",
+        "Location Name"
+    ]
+
+    base_path = 'insta/' + location_id + '/'
+    os.makedirs(base_path, exist_ok=True)
 
     for i in range(0, len(media)):
         print(media[i])
-        image_path =  'temp/' + str(media[i].identifier) + '.png'
-        urllib.request.urlretrieve(str(media[i].image_high_resolution_url), image_path)
-        img = Image.open(image_path)
+        local_image_path = base_path + media[i].identifier + '.png'
+        urllib.request.urlretrieve(str(media[i].image_high_resolution_url), local_image_path)
+        img = Image.open(local_image_path)
         img.show()
-        # os.remove('temp.png')
+
+        info = [
+            media[i].identifier,
+            media[i].likes_count,
+            media[i].image_high_resolution_url,
+            media[i].link,
+            media[i].location_id,
+            media[i].location_name
+        ]
+
+        data.append(info)
+
+    df = pd.DataFrame(data=data, columns=columns)
+
+    output_path = 'insta/' + location_id + '/igramscraperOutput.csv'
+    if os.path.isfile(output_path):
+        media_df = pd.read_csv(output_path)
+        media_df.append(df)
+        media_df.to_csv(output_path)
+    else:
+        df.to_csv(output_path)
 
 instagram = Instagram()
-getImageFromLocation(instagram, '219558731', 1)
+getImageFromLocation(instagram, '219558731', 2)
 # print(getLocationByID(instagram, '219558731'))

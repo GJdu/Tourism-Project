@@ -8,7 +8,7 @@ import shutil
 import os
 
 image_size = (150, 150)
-
+batch_size = 32
 MODEL = "detectSelfie_model"
 
 # Load model
@@ -24,8 +24,6 @@ def trainModel():
     api.authenticate()
 
     api.dataset_download_files('jigrubhatt/selfieimagedetectiondataset', 'data/', unzip=True)
-
-    batch_size = 32
 
     train_ds = tf.keras.preprocessing.image_dataset_from_directory(
         "data/Selfie-Image-Detection-Dataset/Training_data",
@@ -80,17 +78,17 @@ def trainModel():
 
     # A Dense classifier with a single unit (binary classification)
     x = keras.layers.Dropout(0.2)(x)  # Regularize with dropout
-    outputs = keras.layers.Dense(1)(x)
+    outputs = keras.layers.Dense(1, activation="sigmoid")(x)
     model = keras.Model(inputs, outputs)
 
     model.compile(optimizer=keras.optimizers.Adam(),
                   loss=keras.losses.BinaryCrossentropy(from_logits=True),
                   metrics=[keras.metrics.BinaryAccuracy()])
-    trian_history = model.fit(train_ds, epochs=20, validation_data=val_ds)
+    train_history = model.fit(train_ds, epochs=20, validation_data=val_ds)
 
     # Save training history as a dictionary
     with open('/trainHistoryDict', 'wb') as file_pi:
-        pickle.dump(trian_history.history, file_pi)
+        pickle.dump(train_history.history, file_pi)
 
     # Fine-tuning model
     base_model.trainable = True

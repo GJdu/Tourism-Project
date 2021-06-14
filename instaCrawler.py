@@ -24,20 +24,37 @@ def instaScapper(hashtag, count, location_file):
 
 # https://github.com/realsirjoe/instagram-scraper
 from igramscraper.instagram import Instagram
-def igramscraperAuthentication():
-    instagram = Instagram()
-    instagram.with_credentials('username', 'password', 'path/to/cache/folder')
+def igramscraperSetup(instagram):
+
+    import instaAuthentication
+    username, passward = instaAuthentication.getLogin()
+    instagram.with_credentials(username, passward, 'cache')
     instagram.login()
+
     return instagram
 
-def getLocationID(location):
-    instagram = igramscraperAuthentication()
+def igramscraperProxy(instagram):
+    proxies = {
+        'http': 'http://123.45.67.8:1087',
+        'https': 'http://123.45.67.8:1087',
+    }
+    instagram.set_proxies(proxies)
+    return instagram
 
-    # Location id from facebook
-    location_id = instagram.get_location_by_id(location)
-    return location_id
+def getLocationByID(instagram, location_id):
+    instagram = igramscraperSetup(instagram)
 
-def getImageFromLocation(location, count):
-    instagram = Instagram()
-    location_id = getLocationID(location)
+    location = instagram.get_location_by_id(location_id)
+    return location
+
+def getImageFromLocation(instagram, location_id, count):
+    import cv2
+
+    location = getLocationByID(location_id)
     media = instagram.get_medias_by_location_id(location_id, count)
+
+    for i in range(0, len(media)):
+        cv2.imwrite(f'/data/{location}/image_{i}.png', media[i])
+
+instagram = Instagram()
+print(getLocationByID(instagram, '219558731'))

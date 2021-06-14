@@ -93,10 +93,10 @@ def getImageFromLocation(instagram, location_id, count):
     output_path = 'insta/' + location_id + '/igramscraperOutput.csv'
     if os.path.isfile(output_path):
         media_df = pd.read_csv(output_path)
-        media_df.append(df)
-        media_df.to_csv(output_path)
+        media_df = media_df.append(df, ignore_index=True)
+        media_df.to_csv(output_path, index_label=False)
     else:
-        df.to_csv(output_path)
+        df.to_csv(output_path, index_label=False)
 
 instagram = Instagram()
 getImageFromLocation(instagram, '219558731', 2)

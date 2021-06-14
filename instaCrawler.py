@@ -23,12 +23,15 @@ def instaScapper(hashtag, count, location_file):
                    )
 
 # https://github.com/realsirjoe/instagram-scraper
+import os
+import urllib.request
+from PIL import Image
 from igramscraper.instagram import Instagram
 def igramscraperSetup(instagram):
 
     import instaAuthentication
     username, passward = instaAuthentication.getLogin()
-    instagram.with_credentials(username, passward, 'cache')
+    instagram.with_credentials(username, passward, 'cache/')
     instagram.login()
 
     return instagram
@@ -44,17 +47,22 @@ def igramscraperProxy(instagram):
 def getLocationByID(instagram, location_id):
     instagram = igramscraperSetup(instagram)
 
-    location = instagram.get_location_by_id(location_id)
+    location = instagram.get_location_by_id(location_id).slug
     return location
 
 def getImageFromLocation(instagram, location_id, count):
-    import cv2
 
-    location = getLocationByID(location_id)
+    location = getLocationByID(instagram, location_id)
     media = instagram.get_medias_by_location_id(location_id, count)
 
     for i in range(0, len(media)):
-        cv2.imwrite(f'/data/{location}/image_{i}.png', media[i])
+        print(media[i])
+        image_path =  'temp/' + str(media[i].identifier) + '.png'
+        urllib.request.urlretrieve(str(media[i].image_high_resolution_url), image_path)
+        img = Image.open(image_path)
+        img.show()
+        # os.remove('temp.png')
 
 instagram = Instagram()
-print(getLocationByID(instagram, '219558731'))
+getImageFromLocation(instagram, '219558731', 1)
+# print(getLocationByID(instagram, '219558731'))

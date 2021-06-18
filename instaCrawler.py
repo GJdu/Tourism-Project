@@ -60,12 +60,34 @@ def getImageFromLocation(instagram, location_id, count, b_top_media):
 
     data = []
     columns = [
-        "Image Id",
-        "Likes Count",
-        "Image High Resolution Url",
-        "Instagram Link",
-        "Caption",
-        "Location Id",
+        "identifier",
+        "short_code",
+        "created_time",
+        "type",
+        "link",
+        "image_low_resolution_url",
+        "image_thumbnail_url",
+        "image_standard_resolution_url",
+        "image_high_resolution_url",
+        "square_images",
+        "carousel_media",
+        "caption",
+        "is_ad",
+        "video_low_resolution_url",
+        "video_standard_resolution_url",
+        "video_low_bandwidth_url",
+        "video_views",
+        "video_url",
+        # account object
+        "owner",
+        "likes_count",
+        "location_id",
+        "location_name",
+        "comments_count",
+        "comments",
+        "has_more_comments",
+        "comments_next_page",
+        "location_slug",
     ]
 
     base_path = 'insta/' + location_id + '/'
@@ -79,11 +101,33 @@ def getImageFromLocation(instagram, location_id, count, b_top_media):
 
         info = [
             media[i].identifier,
-            media[i].likes_count,
-            media[i].image_high_resolution_url,
+            media[i].short_code,
+            media[i].created_time,
+            media[i].type,
             media[i].link,
+            media[i].image_low_resolution_url,
+            media[i].image_thumbnail_url,
+            media[i].image_standard_resolution_url,
+            media[i].image_high_resolution_url,
+            media[i].square_images,
+            media[i].carousel_media,
             media[i].caption,
-            location_id,
+            media[i].is_ad,
+            media[i].video_low_resolution_url,
+            media[i].video_standard_resolution_url,
+            media[i].video_low_bandwidth_url,
+            media[i].video_views,
+            media[i].video_url,
+            # account object
+            media[i].owner,
+            media[i].likes_count,
+            media[i].location_id,
+            media[i].location_name,
+            media[i].comments_count,
+            media[i].comments,
+            media[i].has_more_comments,
+            media[i].comments_next_page,
+            media[i].location_slug,
         ]
 
         data.append(info)
@@ -92,17 +136,17 @@ def getImageFromLocation(instagram, location_id, count, b_top_media):
 
     output_path = 'insta/' + location_id + '/igramscraperOutput.csv'
     if os.path.isfile(output_path):
-        media_df = pd.read_csv(output_path)
+        media_df = pd.read_csv(output_path, index_col=False)
         media_df = media_df.append(df)
         media_df = media_df.drop_duplicates(subset=['Image Id'])
-        media_df.to_csv(output_path, index_label=False)
+        media_df.to_csv(output_path, index=False)
     else:
-        df.to_csv(output_path, index_label=False)
+        df.to_csv(output_path, index=False)
 
 instagram = Instagram()
 instagram = igramscraperAuthentication(instagram)
 # instagram = igramscraperProxy(instagram)
-getImageFromLocation(instagram=instagram, location_id='219558731', count=1000, b_top_media=False)
+getImageFromLocation(instagram=instagram, location_id='212913483', count=10, b_top_media=False)
 # print(getLocationByID(instagram, '219558731'))
 
 def instaloader():

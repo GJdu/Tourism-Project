@@ -29,7 +29,8 @@ import urllib.request
 import pandas as pd
 from PIL import Image
 from igramscraper.instagram import Instagram
-def igramscraperSetup(instagram):
+
+def igramscraperAuthentication(instagram):
 
     import instaAuthentication
     username, passward = instaAuthentication.getLogin()
@@ -39,32 +40,32 @@ def igramscraperSetup(instagram):
     return instagram
 
 def igramscraperProxy(instagram):
+    # Get free proxies here: https://free-proxy-list.net/
     proxies = {
-        'http': 'http://123.45.67.8:1087',
-        'https': 'http://123.45.67.8:1087',
+        'http': 'http://193.149.225.160:80',
+        'https': 'https://193.149.225.160:80',
     }
     instagram.set_proxies(proxies)
     return instagram
 
 def getLocationByID(instagram, location_id):
-    instagram = igramscraperSetup(instagram)
-
     location = instagram.get_location_by_id(location_id).slug
     return location
 
-def getImageFromLocation(instagram, location_id, count):
-
-    media = instagram.get_medias_by_location_id(location_id, count)
+def getImageFromLocation(instagram, location_id, count, b_top_media):
+    if b_top_media:
+        media = instagram.get_current_top_medias_by_location_id(location_id)
+    else:
+        media = instagram.get_medias_by_location_id(location_id, count)
 
     data = []
-
     columns = [
         "Image Id",
         "Likes Count",
         "Image High Resolution Url",
         "Instagram Link",
+        "Caption",
         "Location Id",
-        "Location Name"
     ]
 
     base_path = 'insta/' + location_id + '/'
@@ -75,15 +76,14 @@ def getImageFromLocation(instagram, location_id, count):
         local_image_path = base_path + media[i].identifier + '.png'
         urllib.request.urlretrieve(str(media[i].image_high_resolution_url), local_image_path)
         img = Image.open(local_image_path)
-        img.show()
 
         info = [
             media[i].identifier,
             media[i].likes_count,
             media[i].image_high_resolution_url,
             media[i].link,
-            media[i].location_id,
-            media[i].location_name
+            media[i].caption,
+            location_id,
         ]
 
         data.append(info)
@@ -93,11 +93,21 @@ def getImageFromLocation(instagram, location_id, count):
     output_path = 'insta/' + location_id + '/igramscraperOutput.csv'
     if os.path.isfile(output_path):
         media_df = pd.read_csv(output_path)
-        media_df = media_df.append(df, ignore_index=True)
+        media_df = media_df.append(df)
+        media_df = media_df.drop_duplicates(subset=['Image Id'])
         media_df.to_csv(output_path, index_label=False)
     else:
         df.to_csv(output_path, index_label=False)
 
 instagram = Instagram()
-getImageFromLocation(instagram, '219558731', 2)
+instagram = igramscraperAuthentication(instagram)
+# instagram = igramscraperProxy(instagram)
+getImageFromLocation(instagram=instagram, location_id='219558731', count=1000, b_top_media=False)
 # print(getLocationByID(instagram, '219558731'))
+
+def instaloader():
+    from datetime import datetime
+    import instaloader
+
+    L = instaloader.Instaloader()
+

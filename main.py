@@ -3,7 +3,7 @@ import cv2
 import os
 import pandas as pd
 from deepFaceAnalysis import deepFaceAnalysis
-from landmarkDetect import landmarkDetect
+from locationDetect import locationDetect
 from imageAIDetect import personDetect
 from detectSelfie import detectSelfie
 
@@ -41,7 +41,7 @@ for image_path in glob.glob(IMAGES_PATH + '/*.jpg'):
     emotion_list.append(emotion)
 
     # Analysis location type
-    scene_type.append(landmarkDetect(image))
+    scene_type.append(locationDetect(image))
 
     if numberFaces > 0:
         selfie.append(detectSelfie(image_path))

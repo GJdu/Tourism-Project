@@ -9,7 +9,7 @@ sys.path.insert(1, PLACES_PATH)
 
 from vgg16_places_365 import VGG16_Places365
 
-def landmarkDetect(image):
+def locationDetect(image):
     image = np.array(image, dtype=np.uint8)
     image = resize(image, (224, 224))
     image = np.expand_dims(image, 0)

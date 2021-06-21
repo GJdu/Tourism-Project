@@ -17,7 +17,6 @@ def processData(media, location_id):
         "short_code",
         "created_time",
         "type",
-
         # image url
         "link",
         "image_low_resolution_url",
@@ -26,18 +25,20 @@ def processData(media, location_id):
         "image_high_resolution_url",
         "square_images",
         "carousel_media",
-
         # content
         "caption",
+        "caption_language",
+        "caption_mentions",
+        "cpation_mentions_count",
+        "caption_hashtags",
+        "caption_hashtags_count",
         "is_ad",
-
         # video info
         "video_low_resolution_url",
         "video_standard_resolution_url",
         "video_low_bandwidth_url",
         "video_views",
         "video_url",
-
         # account object
         "owner",
         "likes_count",
@@ -56,6 +57,7 @@ def processData(media, location_id):
         "emotion",
         "scene_type",
         "b_selfie",
+        "image_text",
     ]
 
     base_path = 'insta/' + location_id + '/'
@@ -84,10 +86,17 @@ def processData(media, location_id):
             b_selfie = "False"
 
         # Detect text within the image
-        text = detectText.detectText(image_path=local_image_path)
+        image_text = detectText.detectText(image_path=local_image_path)
 
-        if text:
-            language = detectText.detectLanguage(text=text)
+        # Extract information from post caption
+        mentions = detectText.extractMentions(string=media[i].caption)
+        mentions_count = len(mentions)
+
+        hashtags = detectText.extractHashtags(string=media[i].caption)
+        hashtags_count = len(hashtags)
+
+        if media[i].caption:
+            language = detectText.detectLanguage(string=media[i].caption)
         else:
             language = "None"
 
@@ -97,20 +106,29 @@ def processData(media, location_id):
             media[i].created_time,
             media[i].type,
             media[i].link,
+            # Image info
             media[i].image_low_resolution_url,
             media[i].image_thumbnail_url,
             media[i].image_standard_resolution_url,
             media[i].image_high_resolution_url,
             media[i].square_images,
             media[i].carousel_media,
+            # Caption NLP
             media[i].caption,
+            language,
+            mentions,
+            mentions_count,
+            hashtags,
+            hashtags_count,
+            # Insta Ads
             media[i].is_ad,
+            # Videos info
             media[i].video_low_resolution_url,
             media[i].video_standard_resolution_url,
             media[i].video_low_bandwidth_url,
             media[i].video_views,
             media[i].video_url,
-            # account object
+            # Account object
             media[i].owner,
             media[i].likes_count,
             media[i].location_id,
@@ -120,16 +138,20 @@ def processData(media, location_id):
             media[i].has_more_comments,
             media[i].comments_next_page,
             media[i].location_slug,
+            # ImageAI
             numberPersons,
+            # DeepFace
             numberFaces,
             age,
             gender,
             race,
             emotion,
+            # Place365
             scene_type,
+            # Selfie detect
             b_selfie,
-            text,
-            language,
+            # Tessoract
+            image_text,
         ]
 
         data.append(info)

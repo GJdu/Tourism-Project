@@ -131,10 +131,6 @@ def detectSelfie(image_path):
     score = predictions[0]
 
     if (score > 0):
-        print("Image is a Selfie")
         return True
     else:
-        print("Image is not a Selfie")
         return False
-
-detectSelfie("Spain-tourists-2.jpeg")

@@ -9,7 +9,7 @@ import os
 
 image_size = (150, 150)
 batch_size = 32
-MODEL = "detectSelfie_model"
+MODEL = "final_detectSelfie_model"
 
 # Load model
 def getModel():
@@ -130,7 +130,9 @@ def detectSelfie(image_path):
     predictions = model.predict(img_array)
     score = predictions[0]
 
-    if (score > 0):
+    if (score > 0.5):
         return True
     else:
         return False
+
+detectSelfie("/Users/brian/Desktop/203116602_484097309320321_7926165674555590865_n.jpeg")

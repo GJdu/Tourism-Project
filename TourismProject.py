@@ -5,10 +5,10 @@ import pandas as pd
 import detectText
 from PIL import Image
 from igramscraper.instagram import Instagram
-from deepFaceAnalysis import deepFaceAnalysis
+import deepFaceAnalysis
 from locationDetect import locationDetect
 from imageAIDetect import personDetect
-from detectSelfie import detectSelfie
+import detectSelfie
 
 def processData(media, location_id):
     data = []
@@ -63,6 +63,10 @@ def processData(media, location_id):
     base_path = 'insta/' + location_id + '/'
     os.makedirs(base_path, exist_ok=True)
 
+    # Build detection models
+    detectSelfie_model = detectSelfie.getModel()
+    retina_model, deepface_models = deepFaceAnalysis.buildDeepFaceModels()
+
     for i in range(0, len(media)):
         print(media[i])
         local_image_path = base_path + media[i].identifier + '.png'
@@ -74,14 +78,14 @@ def processData(media, location_id):
         numberPersons = personDetect(local_image_path)
 
         # Perform deepface analysis
-        numberFaces, age, gender, race, emotion = deepFaceAnalysis(local_image_path)
+        numberFaces, age, gender, race, emotion = deepFaceAnalysis.deepFaceAnalysis(retina_model, deepface_models, local_image_path)
 
         # Analysis location type
         scene_type = locationDetect(img)
 
         # Determine wether the image is a selfie
         if numberFaces > 0:
-            b_selfie = detectSelfie(image_path=local_image_path)
+            b_selfie = detectSelfie.detectSelfie(model=detectSelfie_model, image_path=local_image_path)
         else:
             b_selfie = "False"
 
@@ -171,5 +175,5 @@ location_id='212913483'
 
 instagram = Instagram()
 instagram = instaCrawler.igramscraperAuthentication(instagram)
-media = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, count=10, b_top_media=False)
+media = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, count=100, b_top_media=False)
 processData(media=media, location_id=location_id)

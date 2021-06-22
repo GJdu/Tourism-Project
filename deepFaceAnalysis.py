@@ -3,20 +3,23 @@ from retinaface import RetinaFace
 
 # Need to install the latest mtcnn at: https://github.com/ipazc/mtcnn
 
-age_model = DeepFace.build_model("Age")
-gender_model = DeepFace.build_model("Gender")
-race_model = DeepFace.build_model("Race")
-emotion_model = DeepFace.build_model("Emotion")
+def buildDeepFaceModels():
+    age_model = DeepFace.build_model("Age")
+    gender_model = DeepFace.build_model("Gender")
+    race_model = DeepFace.build_model("Race")
+    emotion_model = DeepFace.build_model("Emotion")
 
-retina_model = RetinaFace.build_model()
+    retina_model = RetinaFace.build_model()
 
-models = {"age" : age_model,
-          "gender" : gender_model,
-          "race" : race_model,
-          "emotion" : emotion_model
-          }
+    deepface_models = {"age" : age_model,
+              "gender" : gender_model,
+              "race" : race_model,
+              "emotion" : emotion_model
+              }
 
-def deepFaceAnalysis(image_path):
+    return retina_model, deepface_models
+
+def deepFaceAnalysis(retina_model, deepface_models, image_path):
     age_list = {}
     gender_list = {}
     race_list = {}
@@ -28,7 +31,7 @@ def deepFaceAnalysis(image_path):
     if len(faces) > 0:
         for i, face in enumerate(faces, start=1):
             dict = "face_" + str(i)
-            face_feature = DeepFace.analyze(face, actions = ['age', 'gender', 'race', 'emotion'], models=models, enforce_detection=False)
+            face_feature = DeepFace.analyze(face, actions = ['age', 'gender', 'race', 'emotion'], models=deepface_models, enforce_detection=False)
             age_list[dict] = (face_feature["age"])
             gender_list[dict] = (face_feature["gender"])
             race_list[dict] = (face_feature["dominant_race"])

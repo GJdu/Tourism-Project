@@ -115,12 +115,7 @@ def trainModel():
 
     return model
 
-def detectSelfie(image_path):
-    if os.path.exists(MODEL):
-        model = getModel()
-    else:
-        model = trainModel()
-
+def detectSelfie(model, image_path):
     # Makes prediction
     img = keras.preprocessing.image.load_img(image_path, target_size=image_size)
 
@@ -134,5 +129,3 @@ def detectSelfie(image_path):
         return True
     else:
         return False
-
-detectSelfie("/Users/brian/Desktop/203116602_484097309320321_7926165674555590865_n.jpeg")

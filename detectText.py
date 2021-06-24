@@ -1,6 +1,9 @@
 from PIL import Image
 import pytesseract
 import re
+from nltk.sentiment import SentimentIntensityAnalyzer
+from textblob import TextBlob
+import pydeepl
 
 # If you don't have tesseract executable in your PATH, include the following:
 pytesseract.pytesseract.tesseract_cmd = r'/usr/local/bin/tesseract'
@@ -29,5 +32,18 @@ def extractHashtags(string):
     hashtags = re.findall("#([a-zA-Z0-9]{1,15})", string)
     return hashtags
 
+# Remove mentions, hashtags and url from string
 def cleanText(string):
     return ' '.join(re.sub("(@[A-Za-z0-9]+)|(#[A-Za-z0-9]+)|(\w+:\/\/\S+)", " ", string).split())
+
+def analysisSentimentVader(string):
+    sia = SentimentIntensityAnalyzer()
+    return sia.polarity_scores(string)
+
+def analysisSentimentTextBlob(string):
+    testimonial = TextBlob(string)
+    return testimonial.sentiment
+
+def translateDeepL(string):
+    # Using auto-detection
+    return pydeepl.translate(string, to_lang="EN")

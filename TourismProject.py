@@ -9,6 +9,7 @@ import deepFaceAnalysis
 from locationDetect import locationDetect
 from imageAIDetect import personDetect
 import detectSelfie
+from datetime import datetime
 
 def processData(media, location_id):
     data = []
@@ -107,7 +108,7 @@ def processData(media, location_id):
         info = [
             media[i].identifier,
             media[i].short_code,
-            media[i].created_time,
+            datetime.utcfromtimestamp(media[i].created_time).strftime('%Y-%m-%d %H:%M:%S'),
             media[i].type,
             media[i].link,
             # Image info
@@ -175,5 +176,5 @@ location_id='212913483'
 
 instagram = Instagram()
 instagram = instaCrawler.igramscraperAuthentication(instagram)
-media = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, count=100, b_top_media=False)
+media = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, count=10, b_top_media=False)
 processData(media=media, location_id=location_id)

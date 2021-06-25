@@ -11,7 +11,7 @@ from imageAIDetect import personDetect
 import detectSelfie
 from datetime import datetime
 
-def processData(media, location_id):
+def processData(media):
     data = []
     columns = [
         "identifier",
@@ -172,9 +172,12 @@ def processData(media, location_id):
     else:
         df.to_csv(output_path, index=False)
 
-location_id='212913483'
-
 instagram = Instagram()
 instagram = instaCrawler.igramscraperAuthentication(instagram)
-media = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, count=10, b_top_media=False)
-processData(media=media, location_id=location_id)
+
+# location_id='212913483'
+# location_name = "León, Spain"
+# media = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, location_name=location_name,count=10)
+
+media = instaCrawler.getMediaFromLocationID(instagram=Instagram, location_id_file="León_location_ids.csv", count=100)
+processData(media=media)

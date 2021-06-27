@@ -25,7 +25,7 @@ def detectLanguage (string):
         return "vier"
 
 def extractMentions(string):
-    mentions = re.findall("@([a-zA-Z0-9]{1,15})", string)
+    mentions = re.findall("@([a-zA-Z0-9_]{1,15})", string)
     return mentions
 
 def extractHashtags(string):
@@ -34,16 +34,19 @@ def extractHashtags(string):
 
 # Remove mentions, hashtags and url from string
 def cleanText(string):
-    return ' '.join(re.sub("(@[A-Za-z0-9]+)|(#[A-Za-z0-9]+)|(\w+:\/\/\S+)", " ", string).split())
+    return ' '.join(re.sub("(@[A-Za-z0-9_]+)|(#[A-Za-z0-9]+)|(\w+:\/\/\S+)", " ", string).split())
 
 def analysisSentimentVader(string):
+    string = cleanText(string)
     sia = SentimentIntensityAnalyzer()
     return sia.polarity_scores(string)
 
 def analysisSentimentTextBlob(string):
+    string = cleanText(string)
     testimonial = TextBlob(string)
     return testimonial.sentiment
 
 def translateDeepL(string):
+    string = cleanText(string)
     # Using auto-detection
     return pydeepl.translate(string, to_lang="EN")

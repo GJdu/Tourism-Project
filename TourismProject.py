@@ -20,11 +20,11 @@ def processData(media):
         "type",
         # image url
         "link",
-        "image_low_resolution_url",
-        "image_thumbnail_url",
-        "image_standard_resolution_url",
+        # "image_low_resolution_url",
+        # "image_thumbnail_url",
+        # "image_standard_resolution_url",
         "image_high_resolution_url",
-        "square_images",
+        # "square_images",
         "carousel_media",
         # content
         "caption",
@@ -33,13 +33,14 @@ def processData(media):
         "cpation_mentions_count",
         "caption_hashtags",
         "caption_hashtags_count",
+        "caption_polarity"
         "is_ad",
         # video info
-        "video_low_resolution_url",
-        "video_standard_resolution_url",
-        "video_low_bandwidth_url",
-        "video_views",
-        "video_url",
+        # "video_low_resolution_url",
+        # "video_standard_resolution_url",
+        # "video_low_bandwidth_url",
+        # "video_views",
+        # "video_url",
         # account object
         "owner",
         "likes_count",
@@ -57,11 +58,10 @@ def processData(media):
         "race",
         "emotion",
         "scene_type",
-        "b_selfie",
-        "image_text",
+        "selfie?",
     ]
 
-    base_path = 'insta/' + location_id + '/'
+    base_path = 'insta/'
     os.makedirs(base_path, exist_ok=True)
 
     # Build detection models
@@ -90,19 +90,21 @@ def processData(media):
         else:
             b_selfie = "False"
 
-        # Detect text within the image
-        image_text = detectText.detectText(image_path=local_image_path)
-
-        # Extract information from post caption
-        mentions = detectText.extractMentions(string=media[i].caption)
-        mentions_count = len(mentions)
-
-        hashtags = detectText.extractHashtags(string=media[i].caption)
-        hashtags_count = len(hashtags)
+        # # Detect text within the image
+        # image_text = detectText.detectText(image_path=local_image_path)
 
         if media[i].caption:
+            # Extract information from post caption
+            mentions = detectText.extractMentions(string=media[i].caption)
+            mentions_count = len(mentions)
+            hashtags = detectText.extractHashtags(string=media[i].caption)
+            hashtags_count = len(hashtags)
             language = detectText.detectLanguage(string=media[i].caption)
         else:
+            mentions = "None"
+            mentions_count = "None"
+            hashtags = "None"
+            hashtags_count = "None"
             language = "None"
 
         info = [
@@ -112,11 +114,11 @@ def processData(media):
             media[i].type,
             media[i].link,
             # Image info
-            media[i].image_low_resolution_url,
-            media[i].image_thumbnail_url,
-            media[i].image_standard_resolution_url,
+            # media[i].image_low_resolution_url,
+            # media[i].image_thumbnail_url,
+            # media[i].image_standard_resolution_url,
             media[i].image_high_resolution_url,
-            media[i].square_images,
+            # media[i].square_images,
             media[i].carousel_media,
             # Caption NLP
             media[i].caption,
@@ -128,11 +130,11 @@ def processData(media):
             # Insta Ads
             media[i].is_ad,
             # Videos info
-            media[i].video_low_resolution_url,
-            media[i].video_standard_resolution_url,
-            media[i].video_low_bandwidth_url,
-            media[i].video_views,
-            media[i].video_url,
+            # media[i].video_low_resolution_url,
+            # media[i].video_standard_resolution_url,
+            # media[i].video_low_bandwidth_url,
+            # media[i].video_views,
+            # media[i].video_url,
             # Account object
             media[i].owner,
             media[i].likes_count,
@@ -155,15 +157,13 @@ def processData(media):
             scene_type,
             # Selfie detect
             b_selfie,
-            # Tessoract
-            image_text,
         ]
 
         data.append(info)
 
     df = pd.DataFrame(data=data, columns=columns)
 
-    output_path = 'insta/' + location_id + '/igramscraperOutput.csv'
+    output_path = 'insta/' + '/igramscraperOutput.csv'
     if os.path.isfile(output_path):
         media_df = pd.read_csv(output_path, index_col=False)
         media_df = media_df.append(df)

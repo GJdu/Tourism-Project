@@ -1,13 +1,19 @@
 import sys
-
-PLACES_PATH = '/Users/brian/Documents/GitHub/instagram-filter-removal-pytorch'
-sys.path.insert(1, PLACES_PATH)
-
+import cv2
+import glob
 import requests
 import os
 import numpy as np
 import torch
 import torchvision.models as models
+from tensorflow import keras
+from os import listdir,makedirs
+from os.path import isfile,join
+import matplotlib.pyplot as plt
+
+PLACES_PATH = '/Users/brian/Documents/GitHub/instagram-filter-removal-pytorch'
+sys.path.insert(1, PLACES_PATH)
+
 from configs.default import get_cfg_defaults
 from modeling.build import build_model
 from utils.data_utils import linear_scaling
@@ -32,6 +38,7 @@ def load_checkpoints_from_ckpt(net, ckpt_path):
     checkpoints = torch.load(ckpt_path, map_location=torch.device('cpu'))
     net.load_state_dict(checkpoints["ifr"])
 
+# Only accept images of 256 * 256
 def filterRemoval(net, vgg16, img):
     arr = np.expand_dims(np.transpose(img, (2, 0, 1)), axis=0)
     arr = torch.tensor(arr).float() / 255
@@ -42,14 +49,32 @@ def filterRemoval(net, vgg16, img):
         out = torch.clamp(out, max=1., min=0.)
         return out.squeeze(0).permute(1, 2, 0).numpy()
 
-# Test remove instagram filter
-from tensorflow import keras
-img = keras.preprocessing.image.load_img("/Users/brian/Desktop/Screen Shot 2021-06-27 at 11.12.17 am.png", target_size=(256,256))
+path = '/Users/brian/ml/DetectSelfie/data/Selfie-Image-Detection-Dataset/Training_data_reduced/Selfie' # Source Folder
+dstpath = '/Users/brian/ml/DetectSelfie/data/Selfie-Image-Detection-Dataset-No-Filter/Training_data/Selfie' # Destination Folder
+
+try:
+    makedirs(dstpath)
+except:
+    print ("Directory already exist, images will be written in same folder")
+# Folder won't used
+files = list(filter(lambda f: isfile(join(path,f)), listdir(path)))
+
 net, vgg16, cfg = setupFilterRemoval()
 load_checkpoints_from_ckpt(net, cfg.MODEL.CKPT)
-img = filterRemoval(net, vgg16, img)
 
-# Show Test
-import matplotlib.pyplot as plt
-plt.imshow(img)
-plt.show()
+for image in files:
+    try:
+        img = keras.preprocessing.image.load_img(os.path.join(path,image), target_size=(256, 256))
+        img_no_filter = filterRemoval(net, vgg16, img)
+        dstPath = join(dstpath,image)
+        keras.preprocessing.image.save_img(dstPath, img_no_filter)
+    except:
+        print('{} is not converted')
+
+for fil in glob.glob("*.jpg"):
+    try:
+        img = keras.preprocessing.image.load_img(fil, target_size=(256, 256))
+        img_no_filter = filterRemoval(net, vgg16, img) # convert to greyscale
+        keras.preprocessing.image.save_img(os.path.join(dstpath,fil), img_no_filter)
+    except:
+        print('{} is not converted')

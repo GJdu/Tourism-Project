@@ -1,17 +1,17 @@
-from PIL import Image
-import pytesseract
 import re
 from nltk.sentiment import SentimentIntensityAnalyzer
 from textblob import TextBlob
 import pydeepl
+# from PIL import Image
+# import pytesseract
 
-# If you don't have tesseract executable in your PATH, include the following:
-pytesseract.pytesseract.tesseract_cmd = r'/usr/local/bin/tesseract'
-
-def detectText(image_path):
-    # Simple image to string
-    text = pytesseract.image_to_string(Image.open(image_path))
-    return text
+# # If you don't have tesseract executable in your PATH, include the following:
+# pytesseract.pytesseract.tesseract_cmd = r'/usr/local/bin/tesseract'
+#
+# def detectText(image_path):
+#     # Simple image to string
+#     text = pytesseract.image_to_string(Image.open(image_path))
+#     return text
 
 def detectLanguage (string):
     from langdetect import DetectorFactory

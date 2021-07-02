@@ -9,15 +9,14 @@ import os
 
 image_size = (150, 150)
 batch_size = 32
-MODEL = "final_detectSelfie_model"
 
 # Load model
-def getModel():
+def getModel(MODEL):
     model = keras.models.load_model(MODEL)
     return model
 
 # Retrain model
-def trainModel():
+def trainModel(model_name):
     os.environ['TF_XLA_FLAGS'] = '--tf_xla_enable_xla_devices'
 
     api = KaggleApi()
@@ -108,7 +107,7 @@ def trainModel():
         pickle.dump(fine_tuning_history.history, file_pi)
 
     # Creates a SavedModel
-    model.save(MODEL)
+    model.save(model_name)
 
     # Remove used data
     shutil.rmtree("data/Selfie-Image-Detection-Dataset")
@@ -124,8 +123,12 @@ def detectSelfie(model, image_path):
 
     predictions = model.predict(img_array)
     score = predictions[0]
-
     if (score > 0.5):
         return True
     else:
         return False
+
+# MODEL = "final_detectSelfie_model"
+# # MODEL = "/Users/brian/ml/DetectSelfie/final_detectSelfieGrayscale_model"
+# model = getModel(MODEL)
+# detectSelfie(model=model, image_path="/Users/brian/Desktop/removed filter.png")

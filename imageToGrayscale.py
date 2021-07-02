@@ -1,6 +1,5 @@
 import cv2
 import os,glob
-import shutil
 from os import listdir,makedirs
 from os.path import isfile,join
 

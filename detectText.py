@@ -2,6 +2,9 @@ import re
 from nltk.sentiment import SentimentIntensityAnalyzer
 from textblob import TextBlob
 import pydeepl
+from langdetect import DetectorFactory
+from langdetect import detect
+from langdetect import lang_detect_exception
 # from PIL import Image
 # import pytesseract
 
@@ -14,9 +17,6 @@ import pydeepl
 #     return text
 
 def detectLanguage (string):
-    from langdetect import DetectorFactory
-    from langdetect import detect
-    from langdetect import lang_detect_exception
     DetectorFactory.seed = 0
 
     try:

@@ -52,7 +52,10 @@ def processData(media, output_folder_path):
         if language == 'EN':
             polarity = detectText.analysisSentimentTextBlob(string=media.caption)
         else:
-            polarity = detectText.analysisSentimentTextBlob(detectText.translateDeepL(string=media.caption))
+            try:
+                polarity = detectText.analysisSentimentTextBlob(detectText.translateDeepL(string=media.caption))
+            except:
+                polarity = "None"
     else:
         mentions = "None"
         mentions_count = "None"
@@ -121,10 +124,9 @@ def dataFrameToCSV(data, columns, output_folder_path):
     else:
         df.to_csv(output_csv_path, index=False)
 
-def getMediaFromUrls():
+def getMediaFromUrls(b_login_in = True, count=1):
     index = 0
-    count = 1
-    base_path = 'instaData/'
+    base_path = 'instaDataSample/'
 
     data = []
     columns = [
@@ -169,8 +171,9 @@ def getMediaFromUrls():
         "selfie?",
     ]
 
-    instagram = Instagram(sleep_between_requests=3)
-    instagram = instaCrawler.igramscraperAuthentication(instagram, b_two_step_verificator=True)
+    instagram = Instagram(sleep_between_requests=5)
+    if b_login_in:
+        instagram = instaCrawler.igramscraperAuthentication(instagram, b_two_step_verificator=True)
     url_list = extractMetaData.getPostIdCodeList()
 
     for url in url_list:
@@ -181,11 +184,12 @@ def getMediaFromUrls():
         index += 1
 
         id = extractMetaData.instaUrlToPostIdCode(url)
+
         try:
             media = instagram.get_medias_by_code(id)
             info = processData(media, base_path)
             data.append(info)
         except:
-            print("post doesn't exist")
+            print("Code doesn't exist:" + url)
 
-getMediaFromUrls()
+getMediaFromUrls(count=50)

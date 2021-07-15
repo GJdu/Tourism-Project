@@ -1,9 +1,7 @@
 from tensorflow import keras
 import tensorflow as tf
-import re
-import string
 
-MODEL = "sentiment_analysis_model"
+MODEL = "Models/sentiment_analysis_model"
 
 import re
 import string

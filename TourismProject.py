@@ -11,7 +11,7 @@ from imageAIDetect import personDetect
 import detectSelfie
 from datetime import datetime
 
-def processData(media):
+def processData(media, output_folder_path):
     data = []
     columns = [
         "identifier",
@@ -20,11 +20,7 @@ def processData(media):
         "type",
         # image url
         "link",
-        # "image_low_resolution_url",
-        # "image_thumbnail_url",
-        # "image_standard_resolution_url",
         "image_high_resolution_url",
-        # "square_images",
         "carousel_media",
         # content
         "caption",
@@ -33,14 +29,8 @@ def processData(media):
         "cpation_mentions_count",
         "caption_hashtags",
         "caption_hashtags_count",
-        "caption_polarity"
+        "caption_polarity",
         "is_ad",
-        # video info
-        # "video_low_resolution_url",
-        # "video_standard_resolution_url",
-        # "video_low_bandwidth_url",
-        # "video_views",
-        # "video_url",
         # account object
         "owner",
         "likes_count",
@@ -48,8 +38,6 @@ def processData(media):
         "location_name",
         "comments_count",
         "comments",
-        "has_more_comments",
-        "comments_next_page",
         "location_slug",
         "number_persons",
         "number_faces",
@@ -61,11 +49,11 @@ def processData(media):
         "selfie?",
     ]
 
-    base_path = 'insta/'
+    base_path = output_folder_path
     os.makedirs(base_path, exist_ok=True)
 
     # Build detection models
-    detectSelfie_model = detectSelfie.getModel()
+    detectSelfie_model = detectSelfie.getModel(MODEL="Models/final_detectSelfie_model")
     retina_model, deepface_models = deepFaceAnalysis.buildDeepFaceModels()
 
     for i in range(0, len(media)):
@@ -114,9 +102,6 @@ def processData(media):
             media[i].type,
             media[i].link,
             # Image info
-            # media[i].image_low_resolution_url,
-            # media[i].image_thumbnail_url,
-            # media[i].image_standard_resolution_url,
             media[i].image_high_resolution_url,
             # media[i].square_images,
             media[i].carousel_media,
@@ -129,12 +114,6 @@ def processData(media):
             hashtags_count,
             # Insta Ads
             media[i].is_ad,
-            # Videos info
-            # media[i].video_low_resolution_url,
-            # media[i].video_standard_resolution_url,
-            # media[i].video_low_bandwidth_url,
-            # media[i].video_views,
-            # media[i].video_url,
             # Account object
             media[i].owner,
             media[i].likes_count,
@@ -142,8 +121,6 @@ def processData(media):
             media[i].location_name,
             media[i].comments_count,
             media[i].comments,
-            media[i].has_more_comments,
-            media[i].comments_next_page,
             media[i].location_slug,
             # ImageAI
             numberPersons,
@@ -163,21 +140,21 @@ def processData(media):
 
     df = pd.DataFrame(data=data, columns=columns)
 
-    output_path = 'insta/' + '/igramscraperOutput.csv'
-    if os.path.isfile(output_path):
-        media_df = pd.read_csv(output_path, index_col=False)
+    output_csv_path = output_folder_path + 'igramscraperOutput.csv'
+    if os.path.isfile(output_csv_path):
+        media_df = pd.read_csv(output_csv_path, index_col=False)
         media_df = media_df.append(df)
         media_df = media_df.drop_duplicates(subset=['Image Id'])
-        media_df.to_csv(output_path, index=False)
+        media_df.to_csv(output_csv_path, index=False)
     else:
-        df.to_csv(output_path, index=False)
+        df.to_csv(output_csv_path, index=False)
 
 instagram = Instagram()
-instagram = instaCrawler.igramscraperAuthentication(instagram)
+# instagram = instaCrawler.igramscraperAuthentication(instagram, b_two_step_verificator=True)
 
-# location_id='212913483'
-# location_name = "León, Spain"
-# media = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, location_name=location_name,count=10)
-
-media = instaCrawler.getMediaFromLocationID(instagram=Instagram, location_id_file="León_location_ids.csv", count=100)
-processData(media=media)
+location_id='757841'
+location_name = "plaza-mayor-leon"
+media = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, location_name=location_name,count=10)
+#
+# # # media = instaCrawler.getMediaFromLocationID(instagram=Instagram, location_id_file="León_location_ids.csv", count=10)
+# processData(media=media, output_folder_path='insta/')

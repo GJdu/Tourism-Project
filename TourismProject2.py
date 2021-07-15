@@ -13,10 +13,10 @@ from datetime import datetime
 import extractMetaData
 
 # Build detection models
-detectSelfie_model = detectSelfie.getModel(MODEL="/Users/brian/ml/DetectSelfie/detectSelfieWithFilterRemoval_model")
+detectSelfie_model = detectSelfie.getModel(MODEL="Models/final_detectSelfie_model")
 retina_model, deepface_models = deepFaceAnalysis.buildDeepFaceModels()
 
-def setupInstagramScrapper(sleep_between_requests=2, b_login=True):
+def setupInstagramScrapper(sleep_between_requests=3, b_login=True):
     instagram = Instagram(sleep_between_requests=sleep_between_requests)
     if b_login:
         return instaCrawler.igramscraperAuthentication(instagram, b_two_step_verificator=True)
@@ -197,6 +197,6 @@ def getMediasFromUrls(instagram, output_path, b_login_in = True, count=1):
             print("Media with given code does not exist or account is private: " + url)
 
 instagram = setupInstagramScrapper()
-getMediasFromUrls(instagram=instagram, output_path='instaDataSample3/', count=25)
+# getMediasFromUrls(instagram=instagram, output_path='instaDataSample3/', count=25)
 
-# media = getMediaFromUrl(instagram=instagram, url='https://www.instagram.com/p/CNnoRUvpisZ/')
+media = getMediaFromUrl(instagram=instagram, url='https://www.instagram.com/p/CNnoRUvpisZ/')

@@ -128,7 +128,8 @@ def detectSelfie(model, image_path):
     else:
         return False
 
-# MODEL = "final_detectSelfie_model"
-# # MODEL = "/Users/brian/ml/DetectSelfie/final_detectSelfieGrayscale_model"
+# Test code
+# # MODEL = "Models/final_detectSelfie_model"
+# MODEL = "/Users/brian/ml/DetectSelfie/detectSelfieWithFilterRemoval_model"
 # model = getModel(MODEL)
-# detectSelfie(model=model, image_path="/Users/brian/Desktop/removed filter.png")
+# detectSelfie(model=model, image_path="/Users/brian/Desktop/Screen Shot 2021-06-27 at 11.12.17 am.png")

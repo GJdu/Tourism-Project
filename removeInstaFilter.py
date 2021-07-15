@@ -49,8 +49,8 @@ def filterRemoval(net, vgg16, img):
         out = torch.clamp(out, max=1., min=0.)
         return out.squeeze(0).permute(1, 2, 0).numpy()
 
-path = '/Users/brian/ml/DetectSelfie/data/Selfie-Image-Detection-Dataset/Training_data_reduced/Selfie' # Source Folder
-dstpath = '/Users/brian/ml/DetectSelfie/data/Selfie-Image-Detection-Dataset-No-Filter/Training_data/Selfie' # Destination Folder
+path = '/Users/brian/ml/DetectSelfie/data/Selfie-Image-Detection-Dataset/Validation_data/NonSelfie' # Source Folder
+dstpath = '/Users/brian/ml/DetectSelfie/data/Selfie-Image-Detection-Dataset-No-Filter/Validation_data/NonSelfie' # Destination Folder
 
 try:
     makedirs(dstpath)

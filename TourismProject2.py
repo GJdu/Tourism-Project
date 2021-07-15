@@ -16,6 +16,12 @@ import extractMetaData
 detectSelfie_model = detectSelfie.getModel(MODEL="/Users/brian/ml/DetectSelfie/detectSelfieWithFilterRemoval_model")
 retina_model, deepface_models = deepFaceAnalysis.buildDeepFaceModels()
 
+def setupInstagramScrapper(sleep_between_requests=2, b_login=True):
+    instagram = Instagram(sleep_between_requests=sleep_between_requests)
+    if b_login:
+        return instaCrawler.igramscraperAuthentication(instagram, b_two_step_verificator=True)
+    return instagram
+
 def processData(media, output_folder_path):
 
     base_path = output_folder_path
@@ -49,11 +55,11 @@ def processData(media, output_folder_path):
         hashtags = detectText.extractHashtags(string=media.caption)
         hashtags_count = len(hashtags)
         language = detectText.detectLanguage(string=media.caption)
-        if language == 'EN':
+        if language == 'en':
             polarity = detectText.analysisSentimentTextBlob(string=media.caption)
         else:
             try:
-                polarity = detectText.analysisSentimentTextBlob(detectText.translateDeepL(string=media.caption))
+                polarity = detectText.analysisSentimentTextBlob(detectText.googleTranslate(string=media.caption))
             except:
                 polarity = "None"
     else:
@@ -76,6 +82,7 @@ def processData(media, output_folder_path):
         # Caption NLP
         media.caption,
         language,
+        detectText.googleTranslate(media.caption),
         mentions,
         mentions_count,
         hashtags,
@@ -91,7 +98,6 @@ def processData(media, output_folder_path):
         media.comments_count,
         media.comments,
         media.has_more_comments,
-        media.comments_next_page,
         media.location_slug,
         # ImageAI
         numberPersons,
@@ -119,14 +125,17 @@ def dataFrameToCSV(data, columns, output_folder_path):
     if os.path.isfile(output_csv_path):
         media_df = pd.read_csv(output_csv_path, index_col=False)
         media_df = media_df.append(df)
-        media_df = media_df.drop_duplicates(subset=['Image Id'])
+        media_df = media_df.drop_duplicates(subset=['identifier'])
         media_df.to_csv(output_csv_path, index=False)
     else:
         df.to_csv(output_csv_path, index=False)
 
-def getMediaFromUrls(b_login_in = True, count=1):
+def getMediaFromUrl(instagram, url):
+    return instagram.get_media_by_url(url)
+
+def getMediasFromUrls(instagram, output_path, b_login_in = True, count=1):
     index = 0
-    base_path = 'instaDataSample/'
+    base_path = output_path
 
     data = []
     columns = [
@@ -141,6 +150,7 @@ def getMediaFromUrls(b_login_in = True, count=1):
         # content
         "caption",
         "caption_language",
+        "translated_caption",
         "caption_mentions",
         "cpation_mentions_count",
         "caption_hashtags",
@@ -155,7 +165,6 @@ def getMediaFromUrls(b_login_in = True, count=1):
         "comments_count",
         "comments",
         "has_more_comments",
-        "comments_next_page",
         "location_slug",
         # ImageAI
         "number_persons",
@@ -171,9 +180,6 @@ def getMediaFromUrls(b_login_in = True, count=1):
         "selfie?",
     ]
 
-    instagram = Instagram(sleep_between_requests=5)
-    if b_login_in:
-        instagram = instaCrawler.igramscraperAuthentication(instagram, b_two_step_verificator=True)
     url_list = extractMetaData.getPostIdCodeList()
 
     for url in url_list:
@@ -183,13 +189,14 @@ def getMediaFromUrls(b_login_in = True, count=1):
 
         index += 1
 
-        id = extractMetaData.instaUrlToPostIdCode(url)
-
         try:
-            media = instagram.get_medias_by_code(id)
+            media = getMediaFromUrl(instagram, url)
             info = processData(media, base_path)
             data.append(info)
         except:
-            print("Code doesn't exist:" + url)
+            print("Media with given code does not exist or account is private: " + url)
 
-getMediaFromUrls(count=50)
+instagram = setupInstagramScrapper()
+getMediasFromUrls(instagram=instagram, output_path='instaDataSample3/', count=25)
+
+# media = getMediaFromUrl(instagram=instagram, url='https://www.instagram.com/p/CNnoRUvpisZ/')

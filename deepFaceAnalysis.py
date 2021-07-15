@@ -19,6 +19,23 @@ def buildDeepFaceModels():
 
     return retina_model, deepface_models
 
+def removeBackgroundFaces(faces, threshold=0.2):
+    size = []
+    for face in faces:
+        size.append(face.size)
+
+    max_size = max(size)
+
+    discard_list =[]
+
+    for i, face in enumerate(faces):
+        if face.size < max_size * threshold:
+            discard_list.append(i)
+
+    for i in reversed(discard_list):
+        faces.pop(i)
+    return faces
+
 def deepFaceAnalysis(retina_model, deepface_models, image_path):
     age_list = {}
     gender_list = {}
@@ -29,6 +46,9 @@ def deepFaceAnalysis(retina_model, deepface_models, image_path):
     faces = RetinaFace.extract_faces(image_path, model=retina_model)
 
     if len(faces) > 0:
+        if len(faces) > 1:
+            removeBackgroundFaces(faces)
+
         for i, face in enumerate(faces, start=1):
             dict = "face_" + str(i)
             face_feature = DeepFace.analyze(face, actions = ['age', 'gender', 'race', 'emotion'], models=deepface_models, enforce_detection=False)
@@ -40,3 +60,6 @@ def deepFaceAnalysis(retina_model, deepface_models, image_path):
         return len(faces), age_list, gender_list, race_list, emotion_list
     else:
         return 0, "None", "None", "None", "None"
+
+retina_model, deepface_models = buildDeepFaceModels()
+deepFaceAnalysis(retina_model, deepface_models, '/Users/brian/Desktop/168514216_2901736630116162_4109456937711421451_n.jpeg')

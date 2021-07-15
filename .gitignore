@@ -139,4 +139,4 @@ dmypy.json
 *.zip
 
 # Saved models
-tourism_model/
+cache/

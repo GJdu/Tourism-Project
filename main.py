@@ -5,7 +5,7 @@ import pandas as pd
 from deepFaceAnalysis import deepFaceAnalysis
 from locationDetect import locationDetect
 from imageAIDetect import personDetect
-from detectSelfie import detectSelfie
+import detectSelfie
 
 IMAGES_PATH = "FOTOS-Sample"
 
@@ -19,6 +19,8 @@ race_list = []
 emotion_list = []
 scene_type = []
 selfie = []
+
+detectSelfie_model = detectSelfie.getModel("final_detectSelfie_model")
 
 for image_path in glob.glob(IMAGES_PATH + '/*.jpg'):
 
@@ -43,10 +45,7 @@ for image_path in glob.glob(IMAGES_PATH + '/*.jpg'):
     # Analysis location type
     scene_type.append(locationDetect(image))
 
-    if numberFaces > 0:
-        selfie.append(detectSelfie(image_path))
-    else:
-        selfie.append("False")
+    selfie.append(detectSelfie.detectSelfie(model=detectSelfie_model, image_path=image_path))
 
 # Save extracted information to a csv file
 output_df = pd.DataFrame(list(zip(image_id, person_count,face_count, age_list, gender_list, race_list, emotion_list, scene_type, selfie)), columns=["image id", "person count", "face count", "age", "gender", "race", "emotion", "scene type", "selfie"])

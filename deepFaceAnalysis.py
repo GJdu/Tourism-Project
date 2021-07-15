@@ -60,6 +60,3 @@ def deepFaceAnalysis(retina_model, deepface_models, image_path):
         return len(faces), age_list, gender_list, race_list, emotion_list
     else:
         return 0, "None", "None", "None", "None"
-
-retina_model, deepface_models = buildDeepFaceModels()
-deepFaceAnalysis(retina_model, deepface_models, '/Users/brian/Desktop/168514216_2901736630116162_4109456937711421451_n.jpeg')

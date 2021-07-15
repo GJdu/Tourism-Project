@@ -2,3 +2,4 @@
 detectSelfie_model/variables/variables.data-00000-of-00001 filter=lfs diff=lfs merge=lfs -text
 final_detectSelfie_model/variables/variables.data-00000-of-00001 filter=lfs diff=lfs merge=lfs -text
 sentiment_analysis_model/variables/variables.data-00000-of-00001 filter=lfs diff=lfs merge=lfs -text
+Models/final_detectSelfie_model/variables/variables.data-00000-of-00001 filter=lfs diff=lfs merge=lfs -text

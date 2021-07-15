@@ -1,7 +1,7 @@
 import re
 from nltk.sentiment import SentimentIntensityAnalyzer
 from textblob import TextBlob
-import pydeepl
+from googletrans import Translator
 from langdetect import DetectorFactory
 from langdetect import detect
 from langdetect import lang_detect_exception
@@ -46,7 +46,8 @@ def analysisSentimentTextBlob(string):
     testimonial = TextBlob(string)
     return testimonial.sentiment
 
-def translateDeepL(string):
+def googleTranslate(string):
     string = cleanText(string)
     # Using auto-detection
-    return pydeepl.translate(string, to_lang="EN")
+    translator = Translator()
+    return translator.translate(string).text

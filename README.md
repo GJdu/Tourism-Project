@@ -19,14 +19,13 @@ from igramscraper.instagram import Instagram
 from TourismProject import processData
 
 instagram = Instagram(sleep_between_requests=3)
-# instagram = instaCrawler.igramscraperAuthentication(instagram, b_two_step_verificator=True)
 
 location_id='757841'
 location_name = "plaza-mayor-leon"
 
 medias = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, location_name=location_name,count=5)
 
-output_folder_path = 'instaDataSample5/'
+output_folder_path = 'instaDataSample/'
 data = []
 columns = getColumns()
 
@@ -45,9 +44,9 @@ from TourismProject import processData
 
 instagram = Instagram(sleep_between_requests=3)
 
-media = instaCrawler.getMediaFromLocationID(instagram=Instagram, location_id_file="León_location_ids.csv", count=10)
+medias = instaCrawler.getMediaFromLocationID(instagram=Instagram, location_id_file="León_location_ids.csv", count=10)
 
-output_folder_path = 'instaDataSample5/'
+output_folder_path = 'instaDataSample/'
 data = []
 columns = getColumns()
 
@@ -56,6 +55,16 @@ for media in medias:
     data.append(info)
 
 dataFrameToCSV(data=data, columns=columns, output_folder_path=output_folder_path)
+```
+The given csv file should be in the following format
+```csv
+1751188368449980,paseo-de-la-condesa-de-sagasta
+1602508106737730,plaza-de-santo-domingo-leon
+858403594,prada-a-tope
+880961525,plaza-de-toros-de-leon
+267661857,plaza-san-marcos
+1199149896866900,barrio-romantico
+691728620942834,barrio-humedo-leon
 ```
 
 Scrape a single Instagram post with a given url
@@ -68,4 +77,4 @@ instagram = Instagram(sleep_between_requests=3)
 instaCrawler.igramscraperAuthentication(instagram, username='your_username', password='your_password', b_two_step_verificator=True)
 
 media = getMediaFromUrl(instagram=instagram, url='https://www.instagram.com/p/SomeCode/')
-processData(media=media, output_folder_path='insta/')
+processData(media=media, output_folder_path='instaDataSample/')

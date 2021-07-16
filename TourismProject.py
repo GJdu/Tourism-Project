@@ -128,7 +128,7 @@ def processData(media, output_folder_path):
         # Caption NLP
         media.caption,
         language,
-        caption_translated,
+        translated_caption,
         mentions,
         mentions_count,
         hashtags,
@@ -205,11 +205,11 @@ def getMediasFromUrls(instagram, output_path, b_login_in = True, count=1):
 instagram = Instagram(sleep_between_requests=3)
 # instagram = instaCrawler.igramscraperAuthentication(instagram, b_two_step_verificator=True)
 
-location_id='757841'
-location_name = "plaza-mayor-leon"
-medias = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, location_name=location_name,count=5)
+location_id='627142930969029'
+location_name = "catedral-de-leon-espana-leon-cathedral-spain"
+medias = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, location_name=location_name,count=10)
 
-output_folder_path = 'instaDataSample5/'
+output_folder_path = 'instaDataSample10/'
 data = []
 columns = getColumns()
 

@@ -15,8 +15,8 @@ Install all dependencies
 Scrape Instagram with a given facebook location id
 ```python
 import instaCrawler
+import TourismProject
 from igramscraper.instagram import Instagram
-from TourismProject import processData
 
 instagram = Instagram(sleep_between_requests=3)
 
@@ -27,13 +27,13 @@ medias = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=lo
 
 output_folder_path = 'instaDataSample/'
 data = []
-columns = getColumns()
+columns = TourismProject.getColumns()
 
 for media in medias:
-    info = processData(media=media, output_folder_path=output_folder_path)
+    info = TourismProject.processData(media=media, output_folder_path=output_folder_path)
     data.append(info)
 
-dataFrameToCSV(data=data, columns=columns, output_folder_path=output_folder_path)
+TourismProject.dataFrameToCSV(data=data, columns=columns, output_folder_path=output_folder_path)
 ```
 
 Scrape Instagram with a given list of facebook location ids in a csv file
@@ -70,11 +70,14 @@ The given csv file should be in the following format
 Scrape a single Instagram post with a given url
 ```python
 import instaCrawler
+import TourismProject
 from igramscraper.instagram import Instagram
-from TourismProject import processData
 
 instagram = Instagram(sleep_between_requests=3)
 instaCrawler.igramscraperAuthentication(instagram, username='your_username', password='your_password', b_two_step_verificator=True)
 
-media = getMediaFromUrl(instagram=instagram, url='https://www.instagram.com/p/SomeCode/')
-processData(media=media, output_folder_path='instaDataSample/')
+media = TourismProject.getMediaFromUrl(instagram=instagram, url='https://www.instagram.com/p/SomeCode/')
+TourismProject.processData(media=media, output_folder_path='instaDataSample/')
+```
+
+For more example please visit https://github.com/GJdu/Tourism-Project/tree/master/Examples

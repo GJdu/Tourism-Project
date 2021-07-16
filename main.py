@@ -1,53 +1,11 @@
-import glob
-import cv2
-import os
-import pandas as pd
-from deepFaceAnalysis import deepFaceAnalysis
-from locationDetect import locationDetect
-from imageAIDetect import personDetect
-import detectSelfie
+import instaCrawler
+from igramscraper.instagram import Instagram
+from TourismProject import processData
 
-IMAGES_PATH = "FOTOS-Sample"
+instagram = Instagram()
+instagram = instaCrawler.igramscraperAuthentication(instagram, b_two_step_verificator=True)
 
-# Initialise list place holder
-image_id = []
-person_count = []
-face_count = []
-age_list = []
-gender_list = []
-race_list = []
-emotion_list = []
-scene_type = []
-selfie = []
-
-detectSelfie_model = detectSelfie.getModel("final_detectSelfie_model")
-
-for image_path in glob.glob(IMAGES_PATH + '/*.jpg'):
-
-    print(image_path)
-
-    image_id.append(os.path.splitext(os.path.split(image_path)[1])[0])
-
-    # Load image dataset
-    image = cv2.imread(image_path)
-
-    numberPersons = personDetect(image_path)
-    person_count.append(numberPersons)
-
-    # Perform deepface analysis
-    numberFaces, age, gender, race, emotion = deepFaceAnalysis(image_path)
-    face_count.append(numberFaces)
-    age_list.append(age)
-    gender_list.append(gender)
-    race_list.append(race)
-    emotion_list.append(emotion)
-
-    # Analysis location type
-    scene_type.append(locationDetect(image))
-
-    selfie.append(detectSelfie.detectSelfie(model=detectSelfie_model, image_path=image_path))
-
-# Save extracted information to a csv file
-output_df = pd.DataFrame(list(zip(image_id, person_count,face_count, age_list, gender_list, race_list, emotion_list, scene_type, selfie)), columns=["image id", "person count", "face count", "age", "gender", "race", "emotion", "scene type", "selfie"])
-output_df.to_csv(r'Output.csv', index = False, header=True)
-output_df.to_excel("Output.xlsx", index = False)
+location_id='757841'
+location_name = "plaza-mayor-leon"
+media = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, location_name=location_name,count=10)
+processData(media=media, output_folder_path='insta/')

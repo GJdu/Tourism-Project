@@ -5,7 +5,6 @@ from tensorflow.keras import layers
 from kaggle.api.kaggle_api_extended import KaggleApi
 import pickle5 as pickle
 import shutil
-import os
 
 image_size = (150, 150)
 batch_size = 32
@@ -17,8 +16,6 @@ def getModel(MODEL):
 
 # Retrain model
 def trainModel(model_name):
-    os.environ['TF_XLA_FLAGS'] = '--tf_xla_enable_xla_devices'
-
     api = KaggleApi()
     api.authenticate()
 

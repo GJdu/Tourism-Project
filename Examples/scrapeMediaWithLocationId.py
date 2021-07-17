@@ -7,7 +7,7 @@ instagram = Instagram(sleep_between_requests=3)
 location_id='757841'
 location_name = "plaza-mayor-leon"
 
-medias = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, location_name=location_name,count=5)
+medias = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, location_name=location_name,count=10)
 
 output_folder_path = 'instaDataSample/'
 data = []

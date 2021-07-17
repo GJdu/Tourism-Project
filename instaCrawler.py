@@ -3,20 +3,12 @@
 import pandas as pd
 import instaAuthentication
 
-def igramscraperAuthentication(instagram):
-    username, passward = instaAuthentication.getLogin()
-    instagram.with_credentials(username, passward, 'cache/')
-    instagram.login(two_step_verificator=True)
+def igramscraperAuthentication(instagram, username='', password='', b_two_step_verificator = False):
+    if not username or password:
+        username, password = instaAuthentication.getLogin()
+    instagram.with_credentials(username, password, 'cache/')
+    instagram.login(two_step_verificator=b_two_step_verificator)
 
-    return instagram
-
-def igramscraperProxy(instagram):
-    # Get free proxies here: https://free-proxy-list.net/
-    proxies = {
-        'http': 'http://193.149.225.160:80',
-        'https': 'https://193.149.225.160:80',
-    }
-    instagram.set_proxies(proxies)
     return instagram
 
 def getLocationByID(instagram, location_id):
@@ -33,7 +25,7 @@ def getLocationIdFromCSV(file):
 
     return location_id, location_name
 
-def getMediaFromLocationID(instagram, location_id_file = '',location_id = None, location_name = None,count=10, b_top_media=False):
+def getMediaFromLocationID(instagram, location_id_file = '', location_id = None, location_name = None, count=10, b_top_media=False):
     if location_id_file:
         media = []
         location_id, location_name = getLocationIdFromCSV(location_id_file)

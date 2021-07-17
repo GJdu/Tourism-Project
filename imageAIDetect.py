@@ -1,22 +1,14 @@
 # https://towardsdatascience.com/object-detection-with-10-lines-of-code-d6cb4d86f606
 
-from imageai.Detection import ObjectDetection
 import os
-
-os.environ['TF_XLA_FLAGS'] = '--tf_xla_enable_xla_devices'
-
-execution_path = os.getcwd()
+from main import ROOT_DIR
+from imageai.Detection import ObjectDetection
 
 # Download this : https://github.com/OlafenwaMoses/ImageAI/releases/download/essentials-v5/resnet50_coco_best_v2.1.0.h5/
 humanDetector = ObjectDetection()
 humanDetector.setModelTypeAsRetinaNet()
-humanDetector.setModelPath( os.path.join(execution_path , "resnet50_coco_best_v2.1.0.h5"))
+humanDetector.setModelPath(os.path.join(ROOT_DIR , "Models/resnet50_coco_best_v2.1.0.h5"))
 humanDetector.loadModel()
-
-# actionDetector = CustomImagePrediction()
-# actionDetector.setModelPath( os.path.join(execution_path , "action_net_ex-060_acc-0.745313.h5"))
-# actionDetector.setJsonPath("/Users/brian/Documents/GitHub/Action-Net/model_class.json")
-# actionDetector.loadFullModel(num_objects=16)
 
 def objectDetect (image_path):
 
@@ -38,8 +30,3 @@ def personDetect (image_path):
     os.remove(face_path_head + '.jpeg')
     # Count number of people present
     return len(detections)
-
-# def detectAction (image_path):
-#     predictions, probabilities = actionDetector.classifyImage(image_input=image_path, result_count=3)
-#
-#     return predictions, probabilities

@@ -3,17 +3,19 @@ import os
 import urllib.request
 import pandas as pd
 import detectText
+import extractMetaData
+import deepFaceAnalysis
+import detectSelfie
 from PIL import Image
 from igramscraper.instagram import Instagram
-import deepFaceAnalysis
 from locationDetect import locationDetect
 from imageAIDetect import personDetect
-import detectSelfie
 from datetime import datetime
-import extractMetaData
+from main import ROOT_DIR
 
 # Build detection models
-detectSelfie_model = detectSelfie.getModel(MODEL="Models/final_detectSelfie_model")
+model_path = os.path.join(ROOT_DIR, "Models/final_detectSelfie_model")
+detectSelfie_model = detectSelfie.getModel(MODEL=model_path)
 retina_model, deepface_models = deepFaceAnalysis.buildDeepFaceModels()
 
 def getColumns():

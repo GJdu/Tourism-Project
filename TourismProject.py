@@ -11,7 +11,7 @@ from igramscraper.instagram import Instagram
 from locationDetect import locationDetect
 from imageAIDetect import personDetect
 from datetime import datetime
-from main import ROOT_DIR
+from paths import ROOT_DIR
 
 # Build detection models
 model_path = os.path.join(ROOT_DIR, "Models/final_detectSelfie_model")
@@ -203,22 +203,3 @@ def getMediasFromUrls(instagram, output_path, b_login_in = True, count=1):
             data.append(info)
         except:
             print("Media with given code does not exist or account is private: " + url)
-
-instagram = Instagram(sleep_between_requests=3)
-# instagram = instaCrawler.igramscraperAuthentication(instagram, b_two_step_verificator=True)
-
-location_id='627142930969029'
-location_name = "catedral-de-leon-espana-leon-cathedral-spain"
-medias = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, location_name=location_name,count=10)
-
-output_folder_path = 'instaDataSample10/'
-data = []
-columns = getColumns()
-
-for media in medias:
-    info = processData(media=media, output_folder_path=output_folder_path)
-    data.append(info)
-
-dataFrameToCSV(data=data, columns=columns, output_folder_path=output_folder_path)
-#
-# # # media = instaCrawler.getMediaFromLocationID(instagram=Instagram, location_id_file="León_location_ids.csv", count=10)

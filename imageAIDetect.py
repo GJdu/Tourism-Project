@@ -1,7 +1,7 @@
 # https://towardsdatascience.com/object-detection-with-10-lines-of-code-d6cb4d86f606
 
 import os
-from main import ROOT_DIR
+from paths import ROOT_DIR
 from imageai.Detection import ObjectDetection
 
 # Download this : https://github.com/OlafenwaMoses/ImageAI/releases/download/essentials-v5/resnet50_coco_best_v2.1.0.h5/

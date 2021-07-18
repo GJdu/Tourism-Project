@@ -36,7 +36,7 @@ def getMediaFromLocationID(instagram, location_id_file = '', location_ids = None
                     for i in range(0, len(media_obj)):
                         media_obj[i].location_id = location_ids
                         media_obj[i].location_name = location_names
-                    media.append(media_obj)
+                    media = media + media_obj
                 except:
                     print("Can't not find location id: " + str(id))
             else:
@@ -45,7 +45,7 @@ def getMediaFromLocationID(instagram, location_id_file = '', location_ids = None
                     for i in range(0, len(media_obj)):
                         media_obj[i].location_id = location_ids
                         media_obj[i].location_name = location_names
-                    media.append(media_obj)
+                    media = media + media_obj
                 except:
                     print("Can't not find location id: " + str(id))
     elif location_ids:

@@ -25,33 +25,33 @@ def getLocationIdFromCSV(file):
 
     return location_id, location_name
 
-def getMediaFromLocationID(instagram, location_id_file = '', location_id = None, location_name = None, count=10, b_top_media=False):
+def getMediaFromLocationID(instagram, location_id_file = '', location_ids = None, location_names = None, count=10, b_top_media=False):
     if location_id_file:
         media = []
-        location_id, location_name = getLocationIdFromCSV(location_id_file)
-        for ids in location_id:
+        location_ids, location_names = getLocationIdFromCSV(location_id_file)
+        for id in location_ids:
             if b_top_media:
-                media_obj = instagram.get_current_top_medias_by_location_id(ids)
+                media_obj = instagram.get_current_top_medias_by_location_id(id)
                 for i in range(0, len(media_obj)):
-                    media_obj[i].location_id = location_id
-                    media_obj[i].location_name = location_name
+                    media_obj[i].location_id = location_ids
+                    media_obj[i].location_name = location_names
             else:
-                media_obj = instagram.get_medias_by_location_id(ids, count)
+                media_obj = instagram.get_medias_by_location_id(id, count)
                 for i in range(0, len(media_obj)):
-                    media_obj[i].location_id = location_id
-                    media_obj[i].location_name = location_name
+                    media_obj[i].location_id = location_ids
+                    media_obj[i].location_name = location_names
             media.append(media_obj)
-    elif location_id:
+    elif location_ids:
         if b_top_media:
-            media = instagram.get_current_top_medias_by_location_id(location_id)
+            media = instagram.get_current_top_medias_by_location_id(location_ids)
             for i in range(0, len(media)):
-                media[i].location_id = location_id
-                media[i].location_name = location_name
+                media[i].location_id = location_ids
+                media[i].location_name = location_names
         else:
-            media = instagram.get_medias_by_location_id(location_id, count)
+            media = instagram.get_medias_by_location_id(location_ids, count)
             for i in range(0, len(media)):
-                media[i].location_id = location_id
-                media[i].location_name = location_name
+                media[i].location_id = location_ids
+                media[i].location_name = location_names
     else:
         media = None
     return media

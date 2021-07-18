@@ -1,5 +1,6 @@
 import instaCrawler
 import TourismProject
+from paths import ROOT_DIR
 from igramscraper.instagram import Instagram
 
 instagram = Instagram(sleep_between_requests=3)
@@ -7,9 +8,9 @@ instagram = Instagram(sleep_between_requests=3)
 location_id='757841'
 location_name = "plaza-mayor-leon"
 
-medias = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, location_name=location_name,count=10)
+medias = instaCrawler.getMediaFromLocationID(instagram=instagram, location_ids=location_id, location_names=location_name,count=10)
 
-output_folder_path = 'instaDataSample/'
+output_folder_path = ROOT_DIR + '/instaDataSample/'
 data = []
 columns = TourismProject.getColumns()
 

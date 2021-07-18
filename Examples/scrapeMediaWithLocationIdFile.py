@@ -1,12 +1,15 @@
 import instaCrawler
 import TourismProject
+from paths import ROOT_DIR
 from igramscraper.instagram import Instagram
 
 instagram = Instagram(sleep_between_requests=3)
 
-medias = instaCrawler.getMediaFromLocationID(instagram=Instagram, location_id_file="León_location_ids.csv", count=10)
+output_folder_path = ROOT_DIR + '/instaDataSample/'
+location_id_file_path = ROOT_DIR + "/León_location_ids.csv"
 
-output_folder_path = 'instaDataSample/'
+medias = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id_file=location_id_file_path, count=10)
+
 data = []
 columns = TourismProject.getColumns()
 

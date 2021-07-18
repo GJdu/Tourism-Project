@@ -10,6 +10,15 @@ Install all dependencies
 ```
   $ pip install -r requirements.txt
 ```
+Download RetinaNet weights for ImageAI.
+```
+  $ curl -L "https://github.com/OlafenwaMoses/ImageAI/releases/download/essentials-v5/resnet50_coco_best_v2.1.0.h5/" > ./Models/resnet50_coco_best_v2.1.0.h5
+```
+To login with instagram scrapper updaete the username and password of ```instaAuthentication.py```
+```python
+    username = 'your_username'
+    password = 'your_password'
+```
 
 ## Usage
 Scrape Instagram with a given facebook location id

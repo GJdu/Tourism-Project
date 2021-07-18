@@ -31,16 +31,23 @@ def getMediaFromLocationID(instagram, location_id_file = '', location_ids = None
         location_ids, location_names = getLocationIdFromCSV(location_id_file)
         for id in location_ids:
             if b_top_media:
-                media_obj = instagram.get_current_top_medias_by_location_id(id)
-                for i in range(0, len(media_obj)):
-                    media_obj[i].location_id = location_ids
-                    media_obj[i].location_name = location_names
+                try:
+                    media_obj = instagram.get_current_top_medias_by_location_id(id)
+                    for i in range(0, len(media_obj)):
+                        media_obj[i].location_id = location_ids
+                        media_obj[i].location_name = location_names
+                    media.append(media_obj)
+                except:
+                    print("Can't not find location id: " + str(id))
             else:
-                media_obj = instagram.get_medias_by_location_id(id, count)
-                for i in range(0, len(media_obj)):
-                    media_obj[i].location_id = location_ids
-                    media_obj[i].location_name = location_names
-            media.append(media_obj)
+                try:
+                    media_obj = instagram.get_medias_by_location_id(id, count)
+                    for i in range(0, len(media_obj)):
+                        media_obj[i].location_id = location_ids
+                        media_obj[i].location_name = location_names
+                    media.append(media_obj)
+                except:
+                    print("Can't not find location id: " + str(id))
     elif location_ids:
         if b_top_media:
             media = instagram.get_current_top_medias_by_location_id(location_ids)

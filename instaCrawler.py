@@ -2,11 +2,12 @@
 
 import pandas as pd
 import instaAuthentication
+from paths import ROOT_DIR
 
 def igramscraperAuthentication(instagram, username='', password='', b_two_step_verificator = False):
     if not username or password:
         username, password = instaAuthentication.getLogin()
-    instagram.with_credentials(username, password, 'cache/')
+    instagram.with_credentials(username, password, ROOT_DIR + 'cache/')
     instagram.login(two_step_verificator=b_two_step_verificator)
 
     return instagram

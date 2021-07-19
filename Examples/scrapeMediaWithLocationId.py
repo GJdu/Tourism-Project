@@ -1,3 +1,6 @@
+import sys
+sys.path.append("..")
+
 import instaCrawler
 import TourismProject
 from paths import ROOT_DIR

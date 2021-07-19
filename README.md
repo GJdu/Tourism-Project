@@ -21,20 +21,20 @@ To login with instagram scrapper updaete the username and password of ```instaAu
 ```
 
 ## Usage
-Scrape Instagram with a given facebook location id
+Scrape Instagram with a given list of facebook location ids in a csv file
 ```python
 import instaCrawler
 import TourismProject
+from paths import ROOT_DIR
 from igramscraper.instagram import Instagram
 
 instagram = Instagram(sleep_between_requests=3)
 
-location_id='757841'
-location_name = "plaza-mayor-leon"
+output_folder_path = ROOT_DIR + '/instaDataSample/'
+location_id_file_path = ROOT_DIR + "/León_location_ids.csv"
 
-medias = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id=location_id, location_name=location_name,count=5)
+medias = instaCrawler.getMediaFromLocationID(instagram=instagram, location_id_file=location_id_file_path, count=10)
 
-output_folder_path = 'instaDataSample/'
 data = []
 columns = TourismProject.getColumns()
 
@@ -43,27 +43,6 @@ for media in medias:
     data.append(info)
 
 TourismProject.dataFrameToCSV(data=data, columns=columns, output_folder_path=output_folder_path)
-```
-
-Scrape Instagram with a given list of facebook location ids in a csv file
-```python
-import instaCrawler
-from igramscraper.instagram import Instagram
-from TourismProject import processData
-
-instagram = Instagram(sleep_between_requests=3)
-
-medias = instaCrawler.getMediaFromLocationID(instagram=Instagram, location_id_file="León_location_ids.csv", count=10)
-
-output_folder_path = 'instaDataSample/'
-data = []
-columns = getColumns()
-
-for media in medias:
-    info = processData(media=media, output_folder_path=output_folder_path)
-    data.append(info)
-
-dataFrameToCSV(data=data, columns=columns, output_folder_path=output_folder_path)
 ```
 The given csv file should be in the following format
 ```csv

@@ -11,8 +11,11 @@ humanDetector.setModelPath(os.path.join(ROOT_DIR , "Models/resnet50_coco_best_v2
 humanDetector.loadModel()
 
 def objectDetect (image_path):
+    file_head = os.path.split(image_path)[0]
+    file_tail = os.path.splitext(os.path.split(image_path)[1])[0]
+    face_path_head = os.path.join(file_head, file_tail + '_detected')
 
-    detections, extracted_images = humanDetector.detectObjectsFromImage(input_image=os.path.join(execution_path, image_path), output_image_path=os.path.join(execution_path , "Detected_" + image_path), extract_detected_objects=True)
+    detections, extracted_images = humanDetector.detectObjectsFromImage(image_path, output_image_path=os.path.join(face_path_head, "Detected_" + image_path), extract_detected_objects=True)
     for Object in detections:
         print(Object["name"] , " : " , Object["percentage_probability"] )
 

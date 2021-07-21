@@ -4,7 +4,7 @@ import numpy as np
 from cv2 import resize
 
 # Clone repo at https://github.com/GKalliatakis/Keras-VGG16-places365
-PLACES_PATH = '/Users/brian/Documents/GitHub/Keras-VGG16-places365'
+PLACES_PATH = '/Keras-VGG16-places365'
 sys.path.insert(1, PLACES_PATH)
 
 from vgg16_places_365 import VGG16_Places365

@@ -10,6 +10,10 @@ Install all dependencies
 ```
   $ pip install -r requirements.txt
 ```
+Clone VGG16-Places_365
+```
+  $ git clone https://github.com/GKalliatakis/Keras-VGG16-places365
+```
 Download RetinaNet weights for ImageAI.
 ```
   $ curl -L "https://github.com/OlafenwaMoses/ImageAI/releases/download/essentials-v5/resnet50_coco_best_v2.1.0.h5/" > ./Models/resnet50_coco_best_v2.1.0.h5

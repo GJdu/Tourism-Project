@@ -5,6 +5,7 @@ pillow==8.2.0
 imageai~=2.1.6
 deepface~=0.0.53
 tensorflow==2.4.0
+tensorflow-estimator==2.4.0
 pickle5~=0.0.11
 kaggle~=1.5.12
 pip~=21.1.2

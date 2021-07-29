@@ -140,3 +140,4 @@ dmypy.json
 
 # Saved models
 cache/
+pretrained_model/

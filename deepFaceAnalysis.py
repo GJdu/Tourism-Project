@@ -9,15 +9,18 @@ def buildDeepFaceModels():
     race_model = DeepFace.build_model("Race")
     emotion_model = DeepFace.build_model("Emotion")
 
-    retina_model = RetinaFace.build_model()
-
     deepface_models = {"age" : age_model,
               "gender" : gender_model,
               "race" : race_model,
               "emotion" : emotion_model
               }
 
-    return retina_model, deepface_models
+    return deepface_models
+
+def buildRetinaModel():
+    retina_model = RetinaFace.build_model()
+
+    return retina_model
 
 def removeBackgroundFaces(faces, threshold=0.2):
     size = []

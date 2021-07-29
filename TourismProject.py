@@ -16,7 +16,8 @@ from paths import ROOT_DIR
 # Build detection models
 model_path = os.path.join(ROOT_DIR, "Models/final_detectSelfie_model")
 detectSelfie_model = detectSelfie.getModel(MODEL=model_path)
-retina_model, deepface_models = deepFaceAnalysis.buildDeepFaceModels()
+deepface_models = deepFaceAnalysis.buildDeepFaceModels()
+retina_model = deepFaceAnalysis.buildRetinaModel()
 
 def getColumns():
     columns = [

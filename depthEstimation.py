@@ -1,5 +1,6 @@
 import sys
 import os
+import cv2
 import torch
 import torch.nn.parallel
 from PIL import Image
@@ -58,13 +59,17 @@ def generateDepthMap(model, image_path):
     output_path = os.path.splitext(image_path)[0] + '_depth_map' + os.path.splitext(image_path)[1]
     nyu2_loader = loaddata.readNyu2(image_path)
     out = test(nyu2_loader, model)
-    matplotlib.image.imsave(output_path, out.view(out.size(2), out.size(3)).data.cpu().numpy())
-    image = Image.open(output_path)
-    image = image.resize(size, Image.ANTIALIAS)
-    image.save(output_path)
+    img = out.view(out.size(2), out.size(3)).data.cpu().numpy()
+    img = cv2.resize(img, dsize=size, interpolation=cv2.INTER_CUBIC)
 
-    return output_path
+    # Create visualisation depth map
+    matplotlib.image.imsave(output_path, img)
+    # image = Image.open(output_path)
+    # image = image.resize(size, Image.ANTIALIAS)
+    # image.save(output_path)
 
-model = setupModels()
-image_path = 'FOTOS-Sample/180430100_365117691585384_4844866814362487843_n.jpg'
-generateDepthMap(model=model, image_path=image_path)
+    return img
+
+# model = setupModels()
+# image_path = 'FOTOS-Sample/180430100_365117691585384_4844866814362487843_n.jpg'
+# generateDepthMap(model=model, image_path=image_path)

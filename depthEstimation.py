@@ -60,14 +60,13 @@ def generateDepthMap(model, image_path):
     nyu2_loader = loaddata.readNyu2(image_path)
     out = test(nyu2_loader, model)
     img = out.view(out.size(2), out.size(3)).data.cpu().numpy()
+    matplotlib.image.imsave(output_path, img)
     img = cv2.resize(img, dsize=size, interpolation=cv2.INTER_CUBIC)
 
     # Create visualisation depth map
-    matplotlib.image.imsave(output_path, img)
     # image = Image.open(output_path)
     # image = image.resize(size, Image.ANTIALIAS)
     # image.save(output_path)
-
     return img
 
 # model = setupModels()

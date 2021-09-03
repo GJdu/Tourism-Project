@@ -1,11 +1,10 @@
 opencv-python~=4.5.2.52
 pandas~=1.2.4
-numpy==1.19.3
-pillow==8.2.0
+numpy~=1.19.3
+pillow~=7.0.0
 imageai~=2.1.6
 deepface~=0.0.53
-tensorflow==2.4.0
-tensorflow-estimator==2.4.0
+tensorflow~=2.4.0
 pickle5~=0.0.11
 kaggle~=1.5.12
 pip~=21.1.2
@@ -13,7 +12,7 @@ wheel~=0.36.2
 lxml~=4.6.2
 setuptools~=57.0.0
 nltk~=3.4.5
-igramscraper~=0.3.5
+igramscraper
 cryptography~=3.4.7
 textblob~=0.15.3
 requests~=2.25.1
@@ -21,7 +20,4 @@ torch~=1.9.0
 torchvision~=0.10.0
 googletrans~=3.1.0a0
 langdetect~=1.0.9
-python-slugify==3.0.2
-chardet==3.*
-Keras-Applications==1.0.8
-pickle5==0.0.11
+matplotlib~=3.3.2
